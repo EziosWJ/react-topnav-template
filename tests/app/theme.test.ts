@@ -37,6 +37,15 @@ describe('theme tokens', () => {
   it('keeps the brand primary color and rounded design tokens in both modes', () => {
     expect(createThemeConfig('light').token?.colorPrimary).toBe('#635bdb');
     expect(createThemeConfig('dark').token?.colorPrimary).toBe('#635bdb');
-    expect(createThemeConfig('dark').token?.borderRadius).toBe(9);
+    expect(createThemeConfig('light').token?.borderRadius).toBe(8);
+    expect(createThemeConfig('dark').token?.borderRadius).toBe(8);
+  });
+
+  it('aligns every interactive control on one height', () => {
+    const light = createThemeConfig('light');
+    expect(light.components?.Button?.controlHeight).toBe(32);
+    expect(light.components?.Input?.controlHeight).toBe(32);
+    expect(light.components?.Select?.controlHeight).toBe(32);
+    expect(light.components?.DatePicker?.controlHeight).toBe(32);
   });
 });
