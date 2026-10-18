@@ -12,7 +12,7 @@ import {
   Grid,
   type MenuProps,
 } from 'antd';
-import { Menu as MenuIcon, Moon, Search, Sun } from 'lucide-react';
+import { LayoutDashboard, Menu as MenuIcon, Moon, Search, Sun } from 'lucide-react';
 import { Outlet, useLocation, useMatches, useNavigate } from 'react-router-dom';
 import { appConfig } from '../config/app.config';
 import { routeDefinitions } from '../config/routes';
@@ -42,7 +42,7 @@ export default function AppLayout() {
     {
       key: '/',
       label: '仪表盘',
-      icon: <routeDefinitions[0].icon size={16} aria-hidden="true" />,
+      icon: <LayoutDashboard size={16} aria-hidden="true" />,
     },
     {
       key: 'business',
