@@ -97,7 +97,7 @@ pnpm dev
 ```
 
 - 刷新、复制链接、浏览器前进/后退都会恢复对应列表状态。
-- 关键词在点击“搜索”后提交；筛选与排序变更后立即写入 URL。
+- 关键词与筛选项先作为草稿；点击“查询”或按 Enter 后一次性提交，只有已提交值写入 URL 并触发请求。重置恢复默认条件并重新查询；排序、分页和页大小按列表规范同步 URL。
 - 非法 `page` / `pageSize` / `sortBy` / `sortOrder` / 日期值会回退到安全默认值，不会导致页面崩溃。
 - “重置”会清除关键词、筛选、排序和分页参数。
 - 列表状态不写入 Zustand；Zustand 仅保留给确实需要跨组件共享的客户端状态。
@@ -185,3 +185,20 @@ Chrome、Edge、Firefox、Safari 当前及最近两个主要版本；不支持 I
 - 不提供真实后端、登录、认证、授权、密码管理或权限系统。
 - 不提供页面标签栏。
 - 不引入第二套图标库、Tailwind 或 Storybook。
+
+
+## 正式文档基线
+
+本仓库以 docs/ 中的正式规范作为后续开发与验收依据：
+
+- [文档索引](docs/README.md)
+- [产品范围 SPEC](docs/spec/0001-product-scope.md)
+- [业务模型与 API SPEC](docs/spec/0002-domain-and-api.md)
+- [列表状态与 DataTable SPEC](docs/spec/0003-list-query-and-datatable.md)
+- [UI 与无障碍 SPEC](docs/spec/0004-ui-and-accessibility.md)
+- [质量与验收 SPEC](docs/spec/0005-quality-and-acceptance.md)
+- [架构说明](docs/architecture.md)
+- [交付验收清单](docs/acceptance.md)
+- [ADR 决策记录](docs/adr/)
+
+当 README、Issue、Prompt 或当前实现与已确认决策、SPEC 或 Accepted ADR 冲突时，不得擅自改变规范；应记录差距并按正式文档修复实现。
