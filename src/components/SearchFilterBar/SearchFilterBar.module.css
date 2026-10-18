@@ -1,0 +1,18 @@
+.wrapper { display: grid; gap: 10px; }
+.form { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.controls { display: flex; flex: 1 1 640px; flex-wrap: wrap; align-items: center; gap: 10px; min-width: 0; }
+.keyword { width: 260px; max-width: 100%; }
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.buttons { flex-shrink: 0; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.summary { color: var(--ant-color-text-secondary, #666); font-size: 13px; }
+@media (max-width: 767px) {
+  .form { flex-direction: column; align-items: stretch; }
+  .controls { flex-direction: column; align-items: stretch; }
+  .keyword { width: 100%; }
+  .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); width: 100%; }
+  .filters :global(.ant-select),
+  .filters :global(.ant-picker) { width: 100% !important; }
+  .buttons { justify-content: flex-start; }
+  .actions { justify-content: flex-start; }
+}

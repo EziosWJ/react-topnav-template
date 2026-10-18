@@ -1,75 +1,94 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { App as AntApp, ConfigProvider, theme as antdTheme, type ThemeConfig } from 'antd';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
+import { App as AntApp, ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import axios from 'axios';
-import { appConfig } from '../config/app.config';
+import { QueryClientProvider } from '@tanstack/react-query';
+import '../config/dayjs';
+import { createThemeConfig } from '../styles/theme';
+import { createQueryClient } from '../lib/api/queryClient';
+import {
+  getInitialTheme,
+  getStoredTheme,
+  getSystemTheme,
+  storeTheme,
+  type ThemeMode,
+} from '../utils/theme';
 
-export type ThemeMode = 'light' | 'dark';
+export type { ThemeMode };
 
 interface AppPreferences {
   themeMode: ThemeMode;
+  setThemeMode: (mode: ThemeMode) => void;
   toggleTheme: () => void;
 }
 
 const PreferencesContext = createContext<AppPreferences | null>(null);
 
-function getInitialTheme(): ThemeMode {
-  const stored = window.localStorage.getItem('app-theme');
-  if (stored === 'light' || stored === 'dark') return stored;
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+const queryClient = createQueryClient();
+
+function applyThemeAttributes(mode: ThemeMode): void {
+  document.documentElement.dataset.theme = mode;
+  document.documentElement.style.colorScheme = mode;
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 30_000,
-      gcTime: 300_000,
-      retry: (failureCount, error) => {
-        if (axios.isAxiosError(error)) {
-          const status = error.response?.status;
-          if (status !== undefined && status >= 400 && status < 500) return false;
-        }
-        return failureCount < 1;
-      },
-    },
-    mutations: { retry: false },
-  },
-});
+export function PreferencesProvider({ children }: { children: ReactNode }) {
+  const [themeMode, setThemeModeState] = useState<ThemeMode>(getInitialTheme);
 
-export function AppProviders({ children }: { children: ReactNode }) {
-  const [themeMode, setThemeMode] = useState<ThemeMode>(getInitialTheme);
-
+  // Follow the operating system only while the user has made no explicit choice.
   useEffect(() => {
-    if (window.localStorage.getItem('app-theme') || !window.matchMedia) return;
+    if (!window.matchMedia) return;
     const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = (event: MediaQueryListEvent) => setThemeMode(event.matches ? 'dark' : 'light');
+    const onChange = () => {
+      if (getStoredTheme() === null) setThemeModeState(getSystemTheme());
+    };
     media.addEventListener?.('change', onChange);
     return () => media.removeEventListener?.('change', onChange);
   }, []);
 
+  useEffect(() => {
+    applyThemeAttributes(themeMode);
+  }, [themeMode]);
+
+  const setThemeMode = useCallback((mode: ThemeMode) => {
+    setThemeModeState(mode);
+    storeTheme(mode);
+  }, []);
+
   const toggleTheme = useCallback(() => {
-    setThemeMode((current) => {
-      const next = current === 'dark' ? 'light' : 'dark';
-      window.localStorage.setItem('app-theme', next);
+    setThemeModeState((current) => {
+      const next: ThemeMode = current === 'dark' ? 'light' : 'dark';
+      storeTheme(next);
       return next;
     });
   }, []);
 
-  const preferences = useMemo(() => ({ themeMode, toggleTheme }), [themeMode, toggleTheme]);
-  const themeConfig: ThemeConfig = {
-    algorithm: themeMode === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
-    token: { colorPrimary: appConfig.brandColor, borderRadius: 8 },
-  };
+  const preferences = useMemo(
+    () => ({ themeMode, setThemeMode, toggleTheme }),
+    [themeMode, setThemeMode, toggleTheme],
+  );
+  const themeConfig = useMemo(() => createThemeConfig(themeMode), [themeMode]);
 
   return (
     <PreferencesContext.Provider value={preferences}>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider locale={zhCN} theme={themeConfig}>
-          <AntApp>{children}</AntApp>
-        </ConfigProvider>
-      </QueryClientProvider>
+      <ConfigProvider locale={zhCN} theme={themeConfig} button={{ autoInsertSpace: false }}>
+        <AntApp>{children}</AntApp>
+      </ConfigProvider>
     </PreferencesContext.Provider>
+  );
+}
+
+export function AppProviders({ children }: { children: ReactNode }) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <PreferencesProvider>{children}</PreferencesProvider>
+    </QueryClientProvider>
   );
 }
 

@@ -1,0 +1,21 @@
+.wrapper { display: grid; gap: 14px; min-width: 0; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.toolbarLeft { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.columnPanel { display: grid; gap: 6px; min-width: 190px; max-height: 320px; overflow: auto; }
+.batchBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--ant-color-primary-border, #d3cffc);
+  border-radius: 10px;
+  background: var(--ant-color-primary-bg, #f1efff);
+}
+.tableRegion { min-width: 0; overflow: hidden; }
+.tableRegion :global(.ant-table-wrapper) { min-width: 0; }
+@media (max-width: 575px) {
+  .toolbar { align-items: flex-start; }
+  .toolbar > :global(.ant-space) { width: 100%; justify-content: space-between; }
+}

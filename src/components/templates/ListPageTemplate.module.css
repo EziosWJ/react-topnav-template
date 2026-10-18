@@ -1,0 +1,7 @@
+.page { display: grid; }
+.card { border-radius: 14px; }
+.filter {
+  padding-bottom: 16px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+}

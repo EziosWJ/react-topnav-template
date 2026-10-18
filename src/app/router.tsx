@@ -1,13 +1,28 @@
 import { lazy, Suspense } from 'react';
-import { Button, Result, Spin } from 'antd';
-import { createBrowserRouter, RouterProvider, isRouteErrorResponse, useNavigate, useRouteError, type RouteObject } from 'react-router-dom';
+import { Button, Result, Spin, Typography } from 'antd';
+import {
+  createBrowserRouter,
+  isRouteErrorResponse,
+  RouterProvider,
+  useNavigate,
+  useRouteError,
+  type RouteObject,
+} from 'react-router-dom';
 import { env } from '../config/env';
 import { routeDefinitions } from '../config/routes';
 import AppLayout from '../layouts/AppLayout';
+import { copy } from '../config/copy';
 
-const NotFoundPage = lazy(() => import('../pages/PlaceholderPage').then(({ default: Page }) => ({
-  default: () => <Page title="页面未找到" description="当前地址没有对应的页面，请从导航中选择有效入口。" />,
-})));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
+
+function RouteLoading() {
+  return (
+    <div className="routeLoading" role="status" aria-live="polite">
+      <Spin size="large" />
+      <span>页面加载中…</span>
+    </div>
+  );
+}
 
 function RouteErrorPage() {
   const error = useRouteError();
@@ -18,34 +33,50 @@ function RouteErrorPage() {
   return (
     <Result
       status={notFound ? '404' : '500'}
-      title={notFound ? '页面不存在' : '页面加载失败'}
-      subTitle={notFound ? '请检查地址，或返回应用首页。' : '页面遇到问题。请重试或返回首页；生产环境不会展示内部堆栈。'}
-      extra={<Button type="primary" onClick={() => navigate('/')}>返回首页</Button>}
+      title={
+        <Typography.Title level={1} style={{ margin: 0, fontSize: 24 }}>
+          {notFound ? copy.errors.title404 : copy.errors.title500}
+        </Typography.Title>
+      }
+      subTitle={
+        notFound ? copy.errors.subtitle404 : copy.errors.subtitle500
+      }
+      extra={
+        <Button type="primary" onClick={() => navigate('/')}>
+          {copy.errors.home}
+        </Button>
+      }
     />
   );
 }
 
-const children: RouteObject[] = routeDefinitions.map((route) => {
-  const Page = route.component;
-  const element = (
-    <Suspense fallback={<div className="routeLoading"><Spin size="large" /><span>页面加载中…</span></div>}>
-      <Page />
-    </Suspense>
-  );
-  const handle = { title: route.title, breadcrumb: route.label };
+function withSuspense(element: React.ReactNode) {
+  return <Suspense fallback={<RouteLoading />}>{element}</Suspense>;
+}
 
-  return route.path === '/'
-    ? { index: true, element, handle }
-    : { path: route.path.replace(/^\//, ''), element, handle };
-});
+const children: RouteObject[] = routeDefinitions.map((route) => ({
+  path: route.path === '/' ? undefined : route.path.replace(/^\//, ''),
+  index: route.path === '/',
+  element: withSuspense(<route.component />),
+  handle: { title: route.title, label: route.label, path: route.path },
+}));
 
 const router = createBrowserRouter(
-  [{
-    path: '/',
-    element: <AppLayout />,
-    errorElement: <RouteErrorPage />,
-    children: [...children, { path: '*', element: <Suspense fallback={<div className="routeLoading"><Spin size="large" /></div>}><NotFoundPage /></Suspense> }],
-  }],
+  [
+    {
+      path: '/',
+      element: <AppLayout />,
+      errorElement: <RouteErrorPage />,
+      children: [
+        ...children,
+        {
+          path: '*',
+          element: withSuspense(<NotFoundPage />),
+          handle: { title: copy.errors.title404, label: copy.errors.title404 },
+        },
+      ],
+    },
+  ],
   { basename: env.basePath === '/' ? undefined : env.basePath },
 );
 
