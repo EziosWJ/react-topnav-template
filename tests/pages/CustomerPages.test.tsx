@@ -17,20 +17,20 @@ describe('CustomerListPage', () => {
     const user = userEvent.setup({ delay: null });
     await openCustomerList();
 
-    expect(screen.getByText('共 24 条结果')).toBeInTheDocument();
+    expect(screen.getByText('共 24 条')).toBeInTheDocument();
 
     const search = screen.getByPlaceholderText('搜索名称、编码、联系人或邮箱');
     await user.type(search, '星海');
     await user.click(screen.getByRole('button', { name: '搜索' }));
-    expect(await screen.findByText(/共 1 条结果/)).toBeInTheDocument();
+    expect(await screen.findByText(/共 1 条/)).toBeInTheDocument();
     expect(screen.getByText(/关键词「星海」/)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: '重置' }));
-    expect(await screen.findByText('共 24 条结果')).toBeInTheDocument();
+    expect(await screen.findByText('共 24 条')).toBeInTheDocument();
 
     await user.click(screen.getByRole('combobox', { name: '按客户状态筛选' }));
     await user.click(await screen.findByTitle('潜在客户'));
-    expect(await screen.findByText(/共 5 条结果/)).toBeInTheDocument();
+    expect(await screen.findByText(/共 5 条/)).toBeInTheDocument();
   });
 
   it('exports all rows matching the current filters as a CSV file', async () => {

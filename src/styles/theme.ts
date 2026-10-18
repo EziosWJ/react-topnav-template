@@ -16,12 +16,16 @@ export function createThemeConfig(mode: ThemeMode): ThemeConfig {
       colorLink: linkColor,
       colorLinkHover: isDark ? '#d3ceff' : '#8b7cf6',
       colorLinkActive: isDark ? '#9d93ff' : '#4b44b8',
-      borderRadius: 9,
+      borderRadius: 8,
       fontFamily:
         'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif',
-      colorBgLayout: isDark ? '#0f1117' : '#f5f6fb',
+      fontSize: 14,
+      colorBgLayout: isDark ? '#0f1117' : '#f4f5fa',
       colorBgContainer: isDark ? '#171922' : '#ffffff',
-      colorBorderSecondary: isDark ? '#262a36' : '#e9ebf2',
+      colorBorderSecondary: isDark ? '#262a36' : '#eceef4',
+      boxShadowTertiary: isDark
+        ? '0 1px 2px rgb(0 0 0 / 24%)'
+        : '0 1px 2px rgb(24 26 40 / 5%)',
     },
     components: {
       Layout: {
@@ -36,12 +40,20 @@ export function createThemeConfig(mode: ThemeMode): ThemeConfig {
         horizontalItemSelectedColor: linkColor,
       },
       Table: {
-        headerBg: isDark ? '#1e2130' : '#f7f8fc',
-        headerColor: isDark ? '#e6e8f0' : '#3b3f4d',
-        rowHoverBg: isDark ? '#202433' : '#f6f5ff',
+        headerBg: isDark ? '#1c1f2c' : '#f7f8fc',
+        headerColor: isDark ? '#e6e8f0' : '#4a4e5e',
+        headerSplitColor: 'transparent',
+        rowHoverBg: isDark ? '#202433' : '#f8f7ff',
+        cellPaddingBlock: 12,
+        cellPaddingInline: 14,
+        headerBorderRadius: 10,
       },
-      Card: { borderRadiusLG: 14 },
-      Button: { borderRadius: 8 },
+      Card: { borderRadiusLG: 12 },
+      Button: { borderRadius: 8, controlHeight: 32 },
+      Input: { controlHeight: 32 },
+      Select: { controlHeight: 32 },
+      DatePicker: { controlHeight: 32 },
+      Tag: { borderRadiusSM: 6 },
       Drawer: { paddingLG: 24 },
     },
   };

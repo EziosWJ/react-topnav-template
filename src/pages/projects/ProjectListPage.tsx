@@ -244,16 +244,23 @@ export default function ProjectListPage() {
     {
       title: '操作',
       key: 'actions',
-      width: 170,
+      width: 148,
       fixed: 'right',
+      align: 'right',
       hideInSettings: true,
       render: (_value: unknown, record) => (
-        <Space size={2}>
-          <Link to={`/projects/${record.id}`}>详情</Link>
+        <Space size={0} className="table-actions">
           <Button type="link" size="small" onClick={() => openEdit(record)}>
             编辑
           </Button>
-          <Button type="link" size="small" danger onClick={() => confirmDelete(record)}>
+          <Link to={`/projects/${record.id}`}>详情</Link>
+          <Button
+            type="link"
+            size="small"
+            danger
+            className="table-action-danger"
+            onClick={() => confirmDelete(record)}
+          >
             删除
           </Button>
         </Space>
@@ -276,10 +283,11 @@ export default function ProjectListPage() {
           title: pageMeta.title,
           description: pageMeta.description,
           meta: (
-            <Space wrap size={[6, 6]}>
-              <Tag color="blue">{projectsQuery.isPending ? '加载中…' : `${projectsQuery.data?.total ?? 0} 个项目`}</Tag>
-              <Typography.Text type="secondary">数据来自 MSW 内存模拟，刷新后重置</Typography.Text>
-            </Space>
+            <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+              {projectsQuery.isPending
+                ? '正在统计项目数量…'
+                : `共 ${projectsQuery.data?.total ?? 0} 个项目 · 演示数据保存在内存中，刷新后重置`}
+            </Typography.Text>
           ),
         }}
         filterBar={
@@ -337,9 +345,9 @@ export default function ProjectListPage() {
                 '正在加载…'
               ) : (
                 <>
-                  共 {projectsQuery.data?.total ?? 0} 条结果
-                  {state.keyword ? `，关键词「${state.keyword}」` : ''}
-                  {hasActiveFilters ? '（已应用筛选）' : ''}
+                  共 <strong>{projectsQuery.data?.total ?? 0}</strong> 条
+                  {state.keyword ? ` · 关键词「${state.keyword}」` : ''}
+                  {hasActiveFilters ? ' · 已应用筛选' : ''}
                 </>
               )
             }
@@ -401,11 +409,9 @@ export default function ProjectListPage() {
             />
           )}
           toolbar={
-            <Typography.Text type="secondary">
-              {selectedRows.length > 0
-                ? `已选 ${selectedRows.length} 条`
-                : '支持客户、状态、负责人和日期范围组合筛选'}
-            </Typography.Text>
+            selectedRows.length > 0 ? (
+              <Typography.Text type="secondary">已选 {selectedRows.length} 条</Typography.Text>
+            ) : null
           }
         />
       </ListPageTemplate>

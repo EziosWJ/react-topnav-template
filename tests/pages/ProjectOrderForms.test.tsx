@@ -145,14 +145,14 @@ describe('Project and order lists', () => {
   it('loads projects with customer and budget columns', async () => {
     renderWithRouter(<ProjectListPage />, { route: '/projects', path: '/projects' });
     expect(await screen.findByText('智能工厂改造', {}, { timeout: 8000 })).toBeInTheDocument();
-    expect(screen.getByText(/共 18 条结果/)).toBeInTheDocument();
+    expect(screen.getByText(/共 18 条/)).toBeInTheDocument();
     expect(screen.getByRole('columnheader', { name: '预算' })).toBeInTheDocument();
   });
 
   it('loads orders with formatted amounts and links', async () => {
     renderWithRouter(<OrderListPage />, { route: '/orders', path: '/orders' });
     expect(await screen.findByText(/ORD-\d{4}-0001/, {}, { timeout: 8000 })).toBeInTheDocument();
-    expect(screen.getByText(/共 36 条结果/)).toBeInTheDocument();
+    expect(screen.getByText(/共 36 条/)).toBeInTheDocument();
     expect(screen.getAllByText(/¥/).length).toBeGreaterThan(0);
   });
 });

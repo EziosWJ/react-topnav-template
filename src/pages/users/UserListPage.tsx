@@ -1,5 +1,5 @@
 import { useEffect, useState, type Key } from 'react';
-import { App, Button, Form, Select, Space, Tag, Typography, type FormInstance } from 'antd';
+import { App, Button, Form, Select, Space, Typography, type FormInstance } from 'antd';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { departmentOptions, roleOptions, userStatusOptions } from '../../config/options';
@@ -234,19 +234,26 @@ export default function UserListPage() {
     {
       title: '操作',
       key: 'actions',
-      width: 220,
+      width: 196,
       fixed: 'right',
+      align: 'right',
       hideInSettings: true,
       render: (_value: unknown, record) => (
-        <Space size={2}>
-          <Link to={`/users/${record.id}`}>详情</Link>
+        <Space size={0} className="table-actions">
           <Button type="link" size="small" onClick={() => openEdit(record)}>
             编辑
           </Button>
+          <Link to={`/users/${record.id}`}>详情</Link>
           <Button type="link" size="small" onClick={() => changeStatus(record)}>
             {record.status === 'active' ? '停用' : '启用'}
           </Button>
-          <Button type="link" size="small" danger onClick={() => confirmDelete(record)}>
+          <Button
+            type="link"
+            size="small"
+            danger
+            className="table-action-danger"
+            onClick={() => confirmDelete(record)}
+          >
             删除
           </Button>
         </Space>
@@ -261,10 +268,11 @@ export default function UserListPage() {
           title: pageMeta.title,
           description: pageMeta.description,
           meta: (
-            <Space wrap size={[6, 6]}>
-              <Tag color="cyan">{usersQuery.isPending ? '加载中…' : `${usersQuery.data?.total ?? 0} 位用户`}</Tag>
-              <Typography.Text type="secondary">数据来自 MSW 内存模拟，刷新后重置</Typography.Text>
-            </Space>
+            <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+              {usersQuery.isPending
+                ? '正在统计用户数量…'
+                : `共 ${usersQuery.data?.total ?? 0} 位用户 · 演示数据保存在内存中，刷新后重置`}
+            </Typography.Text>
           ),
         }}
         filterBar={
@@ -312,9 +320,9 @@ export default function UserListPage() {
                 '正在加载…'
               ) : (
                 <>
-                  共 {usersQuery.data?.total ?? 0} 条结果
-                  {state.keyword ? `，关键词「${state.keyword}」` : ''}
-                  {hasActiveFilters ? '（已应用筛选）' : ''}
+                  共 <strong>{usersQuery.data?.total ?? 0}</strong> 条
+                  {state.keyword ? ` · 关键词「${state.keyword}」` : ''}
+                  {hasActiveFilters ? ' · 已应用筛选' : ''}
                 </>
               )
             }
@@ -376,11 +384,9 @@ export default function UserListPage() {
             />
           )}
           toolbar={
-            <Typography.Text type="secondary">
-              {selectedRows.length > 0
-                ? `已选 ${selectedRows.length} 条`
-                : '启用 / 停用与删除操作均会二次确认或给出明确反馈'}
-            </Typography.Text>
+            selectedRows.length > 0 ? (
+              <Typography.Text type="secondary">已选 {selectedRows.length} 条</Typography.Text>
+            ) : null
           }
         />
       </ListPageTemplate>

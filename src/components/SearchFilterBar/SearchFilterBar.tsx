@@ -59,7 +59,12 @@ export function SearchFilterBar({
             </Button>
           </Space>
         </div>
-        {actions && <div className={styles.actions}>{actions}</div>}
+        {actions && (
+          <>
+            <div className={styles.divider} aria-hidden="true" />
+            <div className={styles.actions}>{actions}</div>
+          </>
+        )}
       </form>
       {resultSummary && (
         <div className={styles.summary} aria-live="polite">

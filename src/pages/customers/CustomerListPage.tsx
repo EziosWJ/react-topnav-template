@@ -1,5 +1,5 @@
 import { useEffect, useState, type Key } from 'react';
-import { App, Button, Drawer, Form, Select, Space, Tag, Typography, type FormInstance } from 'antd';
+import { App, Button, Drawer, Form, Select, Space, Typography, type FormInstance } from 'antd';
 import { Plus, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { customerStatusOptions, industryOptions } from '../../config/options';
@@ -22,7 +22,7 @@ import { useListUrlState, type ListUrlConfig } from '../../hooks/useListUrlState
 import { useConfirmAction } from '../../hooks/useConfirmAction';
 import { useDataExport } from '../../hooks/useDataExport';
 import { getErrorMessage } from '../../lib/api/errors';
-import { formatDateTime } from '../../utils/format';
+import { formatDate, formatDateTime } from '../../utils/format';
 import { SearchFilterBar } from '../../components/SearchFilterBar/SearchFilterBar';
 import { ListPageTemplate } from '../../components/templates/ListPageTemplate';
 import { DataTable, type DataTableColumns } from '../../components/DataTable/DataTable';
@@ -183,17 +183,21 @@ export default function CustomerListPage() {
       title: '客户名称',
       dataIndex: 'name',
       key: 'name',
-      width: 200,
+      width: 220,
       sorter: true,
-      render: (value: string, record) => <Link to={`/customers/${record.id}`}>{value}</Link>,
+      render: (value: string, record) => (
+        <Link to={`/customers/${record.id}`} className="table-cell-strong">
+          {value}
+        </Link>
+      ),
     },
-    { title: '客户编码', dataIndex: 'code', key: 'code', width: 130, sorter: true },
-    { title: '行业', dataIndex: 'industry', key: 'industry', width: 120, sorter: true },
+    { title: '客户编码', dataIndex: 'code', key: 'code', width: 116, sorter: true },
+    { title: '行业', dataIndex: 'industry', key: 'industry', width: 104, sorter: true },
     {
       title: '联系人',
       dataIndex: 'contactName',
       key: 'contactName',
-      width: 160,
+      width: 190,
       render: (_value: string, record) => (
         <Space orientation="vertical" size={0}>
           <span>{record.contactName}</span>
@@ -203,12 +207,22 @@ export default function CustomerListPage() {
         </Space>
       ),
     },
-    { title: '邮箱', dataIndex: 'email', key: 'email', width: 210, ellipsis: true },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+      key: 'email',
+      ellipsis: true,
+      render: (value: string) => (
+        <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+          {value}
+        </Typography.Text>
+      ),
+    },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      width: 110,
+      width: 104,
       sorter: true,
       render: (_value: string, record) => <StatusTag kind="customer" value={record.status} />,
     },
@@ -216,23 +230,34 @@ export default function CustomerListPage() {
       title: '创建时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 160,
+      width: 106,
       sorter: true,
-      render: (value: string) => formatDateTime(value),
+      render: (value: string) => (
+        <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+          {formatDate(value)}
+        </Typography.Text>
+      ),
     },
     {
       title: '操作',
       key: 'actions',
-      width: 170,
+      width: 148,
       fixed: 'right',
+      align: 'right',
       hideInSettings: true,
       render: (_value: unknown, record) => (
-        <Space size={2}>
-          <Link to={`/customers/${record.id}`}>详情</Link>
+        <Space size={0} className="table-actions">
           <Button type="link" size="small" onClick={() => openEdit(record)}>
             编辑
           </Button>
-          <Button type="link" size="small" danger onClick={() => confirmDelete(record)}>
+          <Link to={`/customers/${record.id}`}>详情</Link>
+          <Button
+            type="link"
+            size="small"
+            danger
+            className="table-action-danger"
+            onClick={() => confirmDelete(record)}
+          >
             删除
           </Button>
         </Space>
@@ -250,10 +275,11 @@ export default function CustomerListPage() {
           title: pageMeta.title,
           description: pageMeta.description,
           meta: (
-            <Space wrap size={[6, 6]}>
-              <Tag color="purple">{customersQuery.isPending ? '加载中…' : `${customersQuery.data?.total ?? 0} 位客户`}</Tag>
-              <Typography.Text type="secondary">数据来自 MSW 内存模拟，刷新后重置</Typography.Text>
-            </Space>
+            <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+              {customersQuery.isPending
+                ? '正在统计客户数量…'
+                : `共 ${customersQuery.data?.total ?? 0} 位客户 · 演示数据保存在内存中，刷新后重置`}
+            </Typography.Text>
           ),
         }}
         filterBar={
@@ -292,9 +318,9 @@ export default function CustomerListPage() {
                 '正在加载…'
               ) : (
                 <>
-                  共 {customersQuery.data?.total ?? 0} 条结果
-                  {state.keyword ? `，关键词「${state.keyword}」` : ''}
-                  {hasActiveFilters ? '（已应用筛选）' : ''}
+                  共 <strong>{customersQuery.data?.total ?? 0}</strong> 条
+                  {state.keyword ? ` · 关键词「${state.keyword}」` : ''}
+                  {hasActiveFilters ? ' · 已应用筛选' : ''}
                 </>
               )
             }
@@ -359,11 +385,9 @@ export default function CustomerListPage() {
             />
           )}
           toolbar={
-            <Typography.Text type="secondary">
-              {selectedRows.length > 0
-                ? `已选 ${selectedRows.length} 条`
-                : '支持关键词、状态与行业组合筛选；导出覆盖当前筛选的全部结果'}
-            </Typography.Text>
+            selectedRows.length > 0 ? (
+              <Typography.Text type="secondary">已选 {selectedRows.length} 条</Typography.Text>
+            ) : null
           }
         />
       </ListPageTemplate>

@@ -269,7 +269,7 @@ export function DataTable<T extends object>({
     <div className={styles.wrapper} data-table-id={tableId}>
       <div className={styles.toolbar}>
         <div className={styles.toolbarLeft}>{toolbar}</div>
-        <Space size={8} wrap>
+        <Space size={4} wrap className={styles.toolbarControls}>
           <Segmented
             size="small"
             aria-label={copy.table.density}

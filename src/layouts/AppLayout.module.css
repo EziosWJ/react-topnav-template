@@ -71,9 +71,9 @@
   min-width: 0;
   flex: 1;
   margin: 0 auto;
-  padding: 22px 28px 36px;
+  padding: 20px 32px 40px;
 }
-.breadcrumb { margin-bottom: 16px; }
+.breadcrumb { margin-bottom: 12px; font-size: 13px; }
 .footer {
   padding: 18px 24px;
   color: var(--ant-color-text-tertiary, #999);
@@ -89,7 +89,7 @@
 @media (max-width: 991px) {
   .header { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 8px 16px; }
   .desktopNav { display: none; }
-  .content { padding: 18px 18px 30px; }
+  .content { padding: 16px 18px 32px; }
 }
 @media (max-width: 575px) {
   .header { min-height: 58px; padding: 8px 10px; gap: 6px; }

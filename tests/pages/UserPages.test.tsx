@@ -12,7 +12,7 @@ describe('UserListPage', () => {
     renderWithRouter(<UserListPage />, { route: '/users?page=99', path: '/users' });
 
     expect(await screen.findByText('张伟', {}, { timeout: 8000 })).toBeInTheDocument();
-    expect(screen.getByText(/共 14 条结果/)).toBeInTheDocument();
+    expect(screen.getByText(/共 14 条/)).toBeInTheDocument();
   });
 
   it('filters by department and disables users after confirmation', async () => {
@@ -20,11 +20,11 @@ describe('UserListPage', () => {
     renderWithRouter(<UserListPage />, { route: '/users', path: '/users' });
 
     expect(await screen.findByText('林峰', {}, { timeout: 8000 })).toBeInTheDocument();
-    expect(screen.getByText(/共 14 条结果/)).toBeInTheDocument();
+    expect(screen.getByText(/共 14 条/)).toBeInTheDocument();
 
     await user.click(screen.getByRole('combobox', { name: '按部门筛选' }));
     await user.click(await screen.findByTitle('产品研发'));
-    expect(await screen.findByText(/共 4 条结果/)).toBeInTheDocument();
+    expect(await screen.findByText(/共 4 条/)).toBeInTheDocument();
 
     const row = screen.getByText('张伟').closest('tr');
     expect(row).not.toBeNull();
