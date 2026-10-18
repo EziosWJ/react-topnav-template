@@ -190,7 +190,6 @@ export default function AppLayout() {
         destroyOnHidden
       >
         <Input
-          autoFocus
           allowClear
           value={query}
           onChange={(event) => setQuery(event.target.value)}
