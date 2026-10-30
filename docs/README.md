@@ -1,6 +1,6 @@
 # 正式文档索引
 
-本目录是 React Topnav Template（顶部导航管理后台） 的产品、架构、技术决策与验收基线。最后更新：2026-10-18。
+本目录是 React Topnav Template（顶部导航管理后台） 的产品、架构、技术决策与验收基线。最后更新：2026-10-31。
 
 ## 必读顺序
 1. 根目录 README.md：项目用途、启动方式与现有功能。
@@ -24,6 +24,11 @@
 - [SPEC-0005 质量与验收](spec/0005-quality-and-acceptance.md)
 - [架构说明](architecture.md)
 - [交付验收清单](acceptance.md)
+
+## UI 设计文档
+- [Design System](ui/DESIGN_SYSTEM.md)
+- [UI Refactor Plan](ui/UI_REFACTOR_PLAN.md)
+- [Visual QA Record](ui/VISUAL_QA.md)
 
 ## ADR
 - [ADR-0001 技术栈](adr/0001-technology-stack.md)

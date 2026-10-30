@@ -3,7 +3,7 @@
 本文件是 `react-topnav-template` 的视觉设计规范。它描述**当前实现**与后续 UI 改造共同遵循的语义 Token、组件规则和页面模式。
 
 - 适用范围：本仓库（Topnav 布局）的全部页面、公共组件和主题。
-- 权威来源：`AGENTS.md`、`README.md` 与已确认的产品约束。仓库当前没有 `docs/spec/0004-ui-and-accessibility.md` 或 ADR 目录，因此本文件不覆盖任何不存在的规范；若未来新增 SPEC/ADR，以正式文档为准。
+- 权威来源：`AGENTS.md`、`docs/spec/0004-ui-and-accessibility.md`、ADR-0003（导航与应用壳层）、ADR-0004（DataTable 契约）与 `docs/acceptance.md`。本文件是执行细则；与正式 SPEC/ADR 冲突时以正式文档为准。
 - 技术边界：React 19 + Ant Design 6 + CSS Modules。不引入 Tailwind、styled-components、Less 或第二套图标库。
 - 布局边界：保留顶部导航，不引入左侧 Sidebar；保留现有路由、API、MSW 数据与业务交互。
 
@@ -283,7 +283,8 @@ Card
 ```
 
 - 同一条记录总数只出现一次：表格分页器。
-- 搜索必须显式提交（点击或 Enter）；URL 只同步已提交条件。
+- 关键词必须显式提交（点击“查询”或 Enter），URL 只同步已提交条件。
+- 筛选控件先作为草稿、与关键词一次性提交是 SPEC-0003 的目标契约；当前四个列表仍沿用“筛选变更立即写入 URL”的既有实现，差距记录在 `docs/acceptance.md` 的 F 节，本轮 UI 改造未改变该行为。
 - 重置恢复默认条件并重新查询。
 - 危险操作不进入主操作区；行内危险操作默认中性样式。
 
