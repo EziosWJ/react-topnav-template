@@ -11,7 +11,6 @@ import {
 } from '../../features/orders/components/OrderFormFields';
 import { useCreateOrder, useOrder, useUpdateOrder } from '../../features/orders/queries';
 import { copy } from '../../config/copy';
-import { PageHeader } from '../../components/PageHeader/PageHeader';
 import { FormPage } from '../../components/FormPage/FormPage';
 import { ErrorState, LoadingState } from '../../components/AsyncState/AsyncState';
 import { applyServerFieldErrors } from '../../lib/forms';
@@ -66,26 +65,28 @@ export default function OrderFormPage() {
   };
 
   return (
-    <div>
-      <PageHeader
-        title={isEdit ? `${copy.actions.editOrder}${orderQuery.data ? `：${orderQuery.data.orderNo}` : ''}` : copy.actions.newOrder}
-        description={isEdit ? '更新订单金额、状态和日期。' : '选择客户并填写金额、状态和日期；项目关联为可选项。'}
-        extra={
+    <FormPage<OrderFormValues>
+      header={{
+        title: isEdit
+          ? `${copy.actions.editOrder}${orderQuery.data ? `：${orderQuery.data.orderNo}` : ''}`
+          : copy.actions.newOrder,
+        description: isEdit
+          ? '更新订单金额、状态和日期。'
+          : '选择客户并填写金额、状态和日期；项目关联为可选项。',
+        extra: (
           <Button icon={<ArrowLeft size={15} />} onClick={handleCancel}>
             返回
           </Button>
-        }
-      />
-      <FormPage<OrderFormValues>
-        form={form}
-        onFinish={handleFinish}
-        onCancel={handleCancel}
-        submitting={createMutation.isPending || updateMutation.isPending}
-        error={isEdit ? updateMutation.error : createMutation.error}
-        submitText={isEdit ? copy.form.saveChanges : copy.actions.createOrder}
-      >
-        <OrderFormFields />
-      </FormPage>
-    </div>
+        ),
+      }}
+      form={form}
+      onFinish={handleFinish}
+      onCancel={handleCancel}
+      submitting={createMutation.isPending || updateMutation.isPending}
+      error={isEdit ? updateMutation.error : createMutation.error}
+      submitText={isEdit ? copy.form.saveChanges : copy.actions.createOrder}
+    >
+      <OrderFormFields />
+    </FormPage>
   );
 }

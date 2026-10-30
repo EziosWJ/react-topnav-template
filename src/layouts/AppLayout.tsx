@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Breadcrumb, Button, Divider, Drawer, Grid, Layout, Menu, Space, Tooltip, Typography, type MenuProps } from 'antd';
-import { LayoutDashboard, Menu as MenuIcon, Moon, Search, Sun } from 'lucide-react';
+import { LayoutDashboard, Menu as MenuIcon, Moon, MoreHorizontal, Search, Sun } from 'lucide-react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { appConfig } from '../config/app.config';
 import {
@@ -80,6 +80,7 @@ export default function AppLayout() {
         key: group.key,
         label: group.label,
         icon: <GroupIcon size={16} aria-hidden="true" />,
+        popupClassName: styles.navPopup,
         children: group.items.map((route) => {
           const Icon = route.icon;
           return {
@@ -100,10 +101,12 @@ export default function AppLayout() {
     <Menu
       mode={mode}
       selectedKeys={activeNav ? [activeNav.path] : []}
-      defaultOpenKeys={activeNav?.group ? [activeNav.group] : []}
+      defaultOpenKeys={mode === 'inline' && activeNav?.group ? [activeNav.group] : []}
       items={menuItems}
       onClick={handleMenuClick}
       className={mode === 'horizontal' ? styles.desktopMenu : styles.mobileMenu}
+      overflowedIndicator={<MoreHorizontal size={18} aria-label={copy.nav.more} />}
+      disabledOverflow={false}
       aria-label={copy.nav.main}
     />
   );
@@ -212,7 +215,7 @@ export default function AppLayout() {
         placement="left"
         open={isMobile && mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
-        size={300}
+        size={320}
         styles={{ body: { padding: '12px 8px' }, wrapper: { maxWidth: '100vw' } }}
       >
         {drawerExtras}

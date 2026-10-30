@@ -5,6 +5,11 @@ import './styles/global.css';
 import { AppProviders } from './app/AppProviders';
 import { AppRouter } from './app/router';
 import { enableMocking } from './mocks/enable';
+import { applyThemeVariables } from './styles/tokens';
+import { getInitialTheme } from './utils/theme';
+
+// Publish the semantic palette before the first paint; the provider keeps it in sync afterwards.
+applyThemeVariables(getInitialTheme());
 
 async function bootstrap(): Promise<void> {
   try {

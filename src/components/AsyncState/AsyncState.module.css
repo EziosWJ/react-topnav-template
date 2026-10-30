@@ -1,5 +1,8 @@
-.loading { padding: 16px 4px; }
-.alert { margin: 8px 0; }
+.loading { display: grid; gap: 14px; padding: 16px 4px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.list { display: grid; gap: 10px; }
+.alert { margin: 8px 0; border-radius: var(--app-radius-lg, 12px); }
+.empty { padding: 12px 0; }
 .visuallyHidden {
   position: absolute;
   width: 1px;

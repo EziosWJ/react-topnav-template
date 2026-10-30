@@ -1,2 +1,12 @@
-.section { margin-bottom: 16px; border-radius: 14px; }
-.section :global(.ant-card-head) { min-height: 48px; }
+.section {
+  margin-bottom: 16px;
+  border-color: var(--app-border-secondary, #eceef4);
+  border-radius: var(--app-radius-xl, 14px);
+  box-shadow: var(--app-shadow-card, 0 1px 2px rgb(24 26 40 / 5%));
+}
+.section :global(.ant-card-head) {
+  min-height: 48px;
+  border-bottom: 1px solid var(--app-border-secondary, #eceef4);
+}
+.section :global(.ant-card-head-title) { font-size: 15px; font-weight: 600; }
+.section :global(.ant-descriptions-item-label) { color: var(--app-text-secondary, #5c6273); }

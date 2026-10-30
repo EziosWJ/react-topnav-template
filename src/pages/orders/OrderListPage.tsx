@@ -67,7 +67,6 @@ export default function OrderListPage() {
   const [form] = Form.useForm<OrderFormValues>();
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
-  const [selectedRows, setSelectedRows] = useState<Order[]>([]);
 
   const {
     state,
@@ -84,6 +83,10 @@ export default function OrderListPage() {
     hasActiveFilters,
     hasActiveQuery,
   } = useListUrlState(listConfig);
+  const hasCustomSort = Boolean(
+    state.sortBy &&
+      (state.sortBy !== listConfig.defaultSort?.field || state.sortOrder !== listConfig.defaultSort?.order),
+  );
   const query = listQuery as unknown as OrderListQuery;
   const ordersQuery = useOrders(query);
   const filterSignature = JSON.stringify({
@@ -95,7 +98,6 @@ export default function OrderListPage() {
 
   useEffect(() => {
     setSelectedRowKeys([]);
-    setSelectedRows([]);
   }, [filterSignature]);
 
   // Keep the URL page valid when a delete or filter shrinks the result set.
@@ -165,7 +167,6 @@ export default function OrderListPage() {
           await deleteMutation.mutateAsync(record.id);
           message.success(copy.messages.orderDeleted);
           setSelectedRowKeys((keys) => keys.filter((key) => key !== record.id));
-          setSelectedRows((rows) => rows.filter((row) => row.id !== record.id));
         } catch (error) {
           message.error(getErrorMessage(error));
         }
@@ -252,7 +253,6 @@ export default function OrderListPage() {
           <Button
             type="link"
             size="small"
-            danger
             className="table-action-danger"
             onClick={() => confirmDelete(record)}
           >
@@ -278,11 +278,17 @@ export default function OrderListPage() {
           title: pageMeta.title,
           description: pageMeta.description,
           meta: (
-            <Typography.Text type="secondary" style={{ fontSize: 13 }}>
-              {ordersQuery.isPending
-                ? '正在统计订单数量…'
-                : `共 ${ordersQuery.data?.total ?? 0} 个订单 · 演示数据保存在内存中，刷新后重置`}
+            <Typography.Text type="secondary" className="page-meta-note">
+              {copy.common.demoMemory}
             </Typography.Text>
+          ),
+          extra: (
+            <Space wrap size={8}>
+              <Button type="primary" icon={<Plus size={15} />} onClick={openCreate}>
+                {copy.actions.newOrder}
+              </Button>
+              <ExportButton onExport={exportFiltered} disabled={ordersQuery.isFetching} />
+            </Space>
           ),
         }}
         filterBar={
@@ -296,7 +302,7 @@ export default function OrderListPage() {
             placeholder="搜索订单号、客户或项目"
             filters={
               <>
-                <div style={{ width: 200 }}>
+                <div style={{ width: 'min(200px, 100%)' }}>
                   <CustomerSelect
                     placeholder="客户"
                     value={state.filters.customerId}
@@ -329,21 +335,15 @@ export default function OrderListPage() {
             resultSummary={
               ordersQuery.isPending ? (
                 '正在加载…'
-              ) : (
+              ) : hasActiveFilters ? (
                 <>
-                  共 <strong>{ordersQuery.data?.total ?? 0}</strong> 条
-                  {state.keyword ? ` · 关键词「${state.keyword}」` : ''}
-                  {hasActiveFilters ? ' · 已应用筛选' : ''}
+                  {state.keyword ? `关键词「${state.keyword}」` : '当前列表'}
+                  {Object.keys(state.filters).length > 0
+                    ? ` · ${Object.keys(state.filters).length} 个筛选条件`
+                    : ''}
+                  {hasCustomSort ? ' · 已排序' : ''}
                 </>
-              )
-            }
-            actions={
-              <Space wrap size={8}>
-                <Button type="primary" icon={<Plus size={15} />} onClick={openCreate}>
-                  {copy.actions.newOrder}
-                </Button>
-                <ExportButton onExport={exportFiltered} disabled={ordersQuery.isFetching} />
-              </Space>
+              ) : undefined
             }
           />
         }
@@ -357,6 +357,8 @@ export default function OrderListPage() {
           loading={ordersQuery.isFetching}
           error={ordersQuery.error}
           onRetry={() => void ordersQuery.refetch()}
+          onRefresh={() => void ordersQuery.refetch()}
+          refreshing={ordersQuery.isFetching}
           emptyTitle="暂无订单"
           emptyDescription="调整筛选条件，或创建第一个订单。"
           emptyAction={
@@ -375,10 +377,7 @@ export default function OrderListPage() {
           }}
           rowSelection={{
             selectedRowKeys,
-            onChange: (keys, rows) => {
-              setSelectedRowKeys(keys);
-              setSelectedRows(rows);
-            },
+            onChange: (keys) => setSelectedRowKeys(keys),
           }}
           sortState={{ field: state.sortBy, order: state.sortOrder }}
           onSortChange={setSort}
@@ -394,11 +393,6 @@ export default function OrderListPage() {
               }}
             />
           )}
-          toolbar={
-            selectedRows.length > 0 ? (
-              <Typography.Text type="secondary">已选 {selectedRows.length} 条</Typography.Text>
-            ) : null
-          }
         />
       </ListPageTemplate>
 

@@ -11,7 +11,6 @@ import {
 } from '../../features/projects/components/ProjectFormFields';
 import { useCreateProject, useProject, useUpdateProject } from '../../features/projects/queries';
 import { copy } from '../../config/copy';
-import { PageHeader } from '../../components/PageHeader/PageHeader';
 import { FormPage } from '../../components/FormPage/FormPage';
 import { ErrorState, LoadingState } from '../../components/AsyncState/AsyncState';
 import { applyServerFieldErrors } from '../../lib/forms';
@@ -66,35 +65,37 @@ export default function ProjectFormPage() {
   };
 
   return (
-    <div>
-      <PageHeader
-        title={isEdit ? `${copy.actions.editProject}${projectQuery.data ? `：${projectQuery.data.name}` : ''}` : copy.actions.newProject}
-        description={isEdit ? '更新项目信息、进度与预算。' : '选择客户并填写项目周期、负责人和预算。'}
-        extra={
+    <FormPage<ProjectFormValues>
+      header={{
+        title: isEdit
+          ? `${copy.actions.editProject}${projectQuery.data ? `：${projectQuery.data.name}` : ''}`
+          : copy.actions.newProject,
+        description: isEdit ? '更新项目信息、进度与预算。' : '选择客户并填写项目周期、负责人和预算。',
+        extra: (
           <Button icon={<ArrowLeft size={15} />} onClick={handleCancel}>
             返回
           </Button>
-        }
-      />
-      {isEdit && projectQuery.data && !projectQuery.data.customer && (
-        <Alert
-          type="warning"
-          showIcon
-          className="detail-alert"
-          title="原关联客户已不存在"
-          description="保存前请重新选择有效的关联客户。"
-        />
-      )}
-      <FormPage<ProjectFormValues>
-        form={form}
-        onFinish={handleFinish}
-        onCancel={handleCancel}
-        submitting={createMutation.isPending || updateMutation.isPending}
-        error={isEdit ? updateMutation.error : createMutation.error}
-        submitText={isEdit ? copy.form.saveChanges : copy.actions.createProject}
-      >
-        <ProjectFormFields />
-      </FormPage>
-    </div>
+        ),
+      }}
+      notice={
+        isEdit && projectQuery.data && !projectQuery.data.customer ? (
+          <Alert
+            type="warning"
+            showIcon
+            className="detail-alert"
+            title="原关联客户已不存在"
+            description="保存前请重新选择有效的关联客户。"
+          />
+        ) : undefined
+      }
+      form={form}
+      onFinish={handleFinish}
+      onCancel={handleCancel}
+      submitting={createMutation.isPending || updateMutation.isPending}
+      error={isEdit ? updateMutation.error : createMutation.error}
+      submitText={isEdit ? copy.form.saveChanges : copy.actions.createProject}
+    >
+      <ProjectFormFields />
+    </FormPage>
   );
 }

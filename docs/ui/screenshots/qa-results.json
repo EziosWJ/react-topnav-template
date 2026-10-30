@@ -1,0 +1,1267 @@
+[
+  {
+    "name": "dashboard-1920-light.png",
+    "width": 1920,
+    "height": 1080,
+    "theme": "light",
+    "url": "/",
+    "metrics": {
+      "innerWidth": 1920,
+      "docScrollWidth": 1920,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1920,
+        "top": 0,
+        "bottom": 64,
+        "width": 1920,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 500,
+        "right": 1420,
+        "top": 12,
+        "bottom": 52,
+        "width": 920,
+        "height": 40
+      },
+      "tools": {
+        "left": 1708,
+        "right": 1896,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1486,
+        "scrollWidth": 1486
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "已支付",
+          "ratio": 5.01
+        },
+        {
+          "text": "已完成",
+          "ratio": 4.55
+        },
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "草稿",
+          "ratio": 6.7
+        }
+      ]
+    }
+  },
+  {
+    "name": "customers-1920-light.png",
+    "width": 1920,
+    "height": 1080,
+    "theme": "light",
+    "url": "/customers",
+    "metrics": {
+      "innerWidth": 1920,
+      "docScrollWidth": 1920,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1920,
+        "top": 0,
+        "bottom": 64,
+        "width": 1920,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 500,
+        "right": 1420,
+        "top": 12,
+        "bottom": 52,
+        "width": 920,
+        "height": 40
+      },
+      "tools": {
+        "left": 1708,
+        "right": 1896,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1494,
+        "scrollWidth": 1494
+      },
+      "filterFormHeight": 32,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "潜在客户",
+          "ratio": 5.01
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "已停用",
+          "ratio": 6.7
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        }
+      ]
+    }
+  },
+  {
+    "name": "dashboard-1440-light.png",
+    "width": 1440,
+    "height": 900,
+    "theme": "light",
+    "url": "/",
+    "metrics": {
+      "innerWidth": 1440,
+      "docScrollWidth": 1440,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1440,
+        "top": 0,
+        "bottom": 64,
+        "width": 1440,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 380,
+        "right": 1060,
+        "top": 12,
+        "bottom": 52,
+        "width": 680,
+        "height": 40
+      },
+      "tools": {
+        "left": 1228,
+        "right": 1416,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1326,
+        "scrollWidth": 1326
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "已支付",
+          "ratio": 5.01
+        },
+        {
+          "text": "已完成",
+          "ratio": 4.55
+        },
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "草稿",
+          "ratio": 6.7
+        }
+      ]
+    }
+  },
+  {
+    "name": "customers-1440-light.png",
+    "width": 1440,
+    "height": 900,
+    "theme": "light",
+    "url": "/customers",
+    "metrics": {
+      "innerWidth": 1440,
+      "docScrollWidth": 1440,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1440,
+        "top": 0,
+        "bottom": 64,
+        "width": 1440,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 380,
+        "right": 1060,
+        "top": 12,
+        "bottom": 52,
+        "width": 680,
+        "height": 40
+      },
+      "tools": {
+        "left": 1228,
+        "right": 1416,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1334,
+        "scrollWidth": 1334
+      },
+      "filterFormHeight": 32,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "潜在客户",
+          "ratio": 5.01
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "已停用",
+          "ratio": 6.7
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        }
+      ]
+    }
+  },
+  {
+    "name": "dashboard-1280-light.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "light",
+    "url": "/",
+    "metrics": {
+      "innerWidth": 1280,
+      "docScrollWidth": 1280,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 64,
+        "width": 1280,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 340,
+        "right": 940,
+        "top": 12,
+        "bottom": 52,
+        "width": 600,
+        "height": 40
+      },
+      "tools": {
+        "left": 1068,
+        "right": 1256,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1166,
+        "scrollWidth": 1166
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "已支付",
+          "ratio": 5.01
+        },
+        {
+          "text": "已完成",
+          "ratio": 4.55
+        },
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "草稿",
+          "ratio": 6.7
+        }
+      ]
+    }
+  },
+  {
+    "name": "customers-1280-light.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "light",
+    "url": "/customers",
+    "metrics": {
+      "innerWidth": 1280,
+      "docScrollWidth": 1280,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 64,
+        "width": 1280,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 340,
+        "right": 940,
+        "top": 12,
+        "bottom": 52,
+        "width": 600,
+        "height": 40
+      },
+      "tools": {
+        "left": 1068,
+        "right": 1256,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1174,
+        "scrollWidth": 1174
+      },
+      "filterFormHeight": 32,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "潜在客户",
+          "ratio": 5.01
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "已停用",
+          "ratio": 6.7
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        }
+      ]
+    }
+  },
+  {
+    "name": "dashboard-1024-dark.png",
+    "width": 1024,
+    "height": 768,
+    "theme": "dark",
+    "url": "/",
+    "metrics": {
+      "innerWidth": 1024,
+      "docScrollWidth": 1024,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1024,
+        "top": 0,
+        "bottom": 64,
+        "width": 1024,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 276,
+        "right": 748,
+        "top": 12,
+        "bottom": 52,
+        "width": 472,
+        "height": 40
+      },
+      "tools": {
+        "left": 850,
+        "right": 1000,
+        "top": 16,
+        "bottom": 48,
+        "width": 150,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 910,
+        "scrollWidth": 910
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "dark",
+      "bgContainer": "#171922",
+      "text": "#e6e8f0",
+      "statusContrast": [
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        },
+        {
+          "text": "已支付",
+          "ratio": 7.3
+        },
+        {
+          "text": "已完成",
+          "ratio": 8.18
+        },
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        },
+        {
+          "text": "草稿",
+          "ratio": 6.48
+        }
+      ]
+    }
+  },
+  {
+    "name": "customers-1024-dark.png",
+    "width": 1024,
+    "height": 768,
+    "theme": "dark",
+    "url": "/customers",
+    "metrics": {
+      "innerWidth": 1024,
+      "docScrollWidth": 1024,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1024,
+        "top": 0,
+        "bottom": 64,
+        "width": 1024,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 276,
+        "right": 748,
+        "top": 12,
+        "bottom": 52,
+        "width": 472,
+        "height": 40
+      },
+      "tools": {
+        "left": 850,
+        "right": 1000,
+        "top": 16,
+        "bottom": 48,
+        "width": 150,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 918,
+        "scrollWidth": 1040
+      },
+      "filterFormHeight": 32,
+      "menuPopupOpen": false,
+      "theme": "dark",
+      "bgContainer": "#171922",
+      "text": "#e6e8f0",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "潜在客户",
+          "ratio": 7.3
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "已停用",
+          "ratio": 6.48
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        }
+      ]
+    }
+  },
+  {
+    "name": "dashboard-768-light.png",
+    "width": 768,
+    "height": 900,
+    "theme": "light",
+    "url": "/",
+    "metrics": {
+      "innerWidth": 768,
+      "docScrollWidth": 768,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 768,
+        "top": 0,
+        "bottom": 56,
+        "width": 768,
+        "height": 56
+      },
+      "brand": {
+        "left": 52,
+        "right": 256,
+        "top": 11,
+        "bottom": 45,
+        "width": 204,
+        "height": 34
+      },
+      "nav": null,
+      "tools": {
+        "left": 602,
+        "right": 752,
+        "top": 12,
+        "bottom": 44,
+        "width": 150,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 682,
+        "scrollWidth": 682
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "已支付",
+          "ratio": 5.01
+        },
+        {
+          "text": "已完成",
+          "ratio": 4.55
+        },
+        {
+          "text": "待处理",
+          "ratio": 4.72
+        },
+        {
+          "text": "草稿",
+          "ratio": 6.7
+        }
+      ]
+    }
+  },
+  {
+    "name": "customers-768-light.png",
+    "width": 768,
+    "height": 900,
+    "theme": "light",
+    "url": "/customers",
+    "metrics": {
+      "innerWidth": 768,
+      "docScrollWidth": 768,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 768,
+        "top": 0,
+        "bottom": 56,
+        "width": 768,
+        "height": 56
+      },
+      "brand": {
+        "left": 52,
+        "right": 256,
+        "top": 11,
+        "bottom": 45,
+        "width": 204,
+        "height": 34
+      },
+      "nav": null,
+      "tools": {
+        "left": 602,
+        "right": 752,
+        "top": 12,
+        "bottom": 44,
+        "width": 150,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 690,
+        "scrollWidth": 1040
+      },
+      "filterFormHeight": 32,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "潜在客户",
+          "ratio": 5.01
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        },
+        {
+          "text": "已停用",
+          "ratio": 6.7
+        },
+        {
+          "text": "合作中",
+          "ratio": 4.55
+        }
+      ]
+    }
+  },
+  {
+    "name": "dashboard-390-dark.png",
+    "width": 390,
+    "height": 844,
+    "theme": "dark",
+    "url": "/",
+    "metrics": {
+      "innerWidth": 390,
+      "docScrollWidth": 390,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "bottom": 56,
+        "width": 390,
+        "height": 56
+      },
+      "brand": {
+        "left": 46,
+        "right": 215,
+        "top": 13,
+        "bottom": 43,
+        "width": 169,
+        "height": 30
+      },
+      "nav": null,
+      "tools": {
+        "left": 294,
+        "right": 380,
+        "top": 12,
+        "bottom": 44,
+        "width": 86,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 332,
+        "scrollWidth": 680
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "dark",
+      "bgContainer": "#171922",
+      "text": "#e6e8f0",
+      "statusContrast": [
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        },
+        {
+          "text": "已支付",
+          "ratio": 7.3
+        },
+        {
+          "text": "已完成",
+          "ratio": 8.18
+        },
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        },
+        {
+          "text": "草稿",
+          "ratio": 6.48
+        }
+      ]
+    }
+  },
+  {
+    "name": "customers-390-dark.png",
+    "width": 390,
+    "height": 844,
+    "theme": "dark",
+    "url": "/customers",
+    "metrics": {
+      "innerWidth": 390,
+      "docScrollWidth": 390,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "bottom": 56,
+        "width": 390,
+        "height": 56
+      },
+      "brand": {
+        "left": 46,
+        "right": 215,
+        "top": 13,
+        "bottom": 43,
+        "width": 169,
+        "height": 30
+      },
+      "nav": null,
+      "tools": {
+        "left": 294,
+        "right": 380,
+        "top": 12,
+        "bottom": 44,
+        "width": 86,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 332,
+        "scrollWidth": 1040
+      },
+      "filterFormHeight": 112,
+      "menuPopupOpen": false,
+      "theme": "dark",
+      "bgContainer": "#171922",
+      "text": "#e6e8f0",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "潜在客户",
+          "ratio": 7.3
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "已停用",
+          "ratio": 6.48
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        }
+      ]
+    }
+  },
+  {
+    "name": "customer-form-1280-light.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "light",
+    "url": "/customers/cus_01/edit",
+    "metrics": {
+      "innerWidth": 1280,
+      "docScrollWidth": 1280,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 64,
+        "width": 1280,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 340,
+        "right": 940,
+        "top": 12,
+        "bottom": 52,
+        "width": 600,
+        "height": 40
+      },
+      "tools": {
+        "left": 1068,
+        "right": 1256,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": null,
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "light",
+      "bgContainer": "#ffffff",
+      "text": "#1f2330",
+      "statusContrast": []
+    }
+  },
+  {
+    "name": "customer-detail-1280-dark.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "dark",
+    "url": "/customers/cus_01",
+    "metrics": {
+      "innerWidth": 1280,
+      "docScrollWidth": 1280,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 64,
+        "width": 1280,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 340,
+        "right": 940,
+        "top": 12,
+        "bottom": 52,
+        "width": 600,
+        "height": 40
+      },
+      "tools": {
+        "left": 1068,
+        "right": 1256,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1166,
+        "scrollWidth": 1166
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "dark",
+      "bgContainer": "#171922",
+      "text": "#e6e8f0",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "进行中",
+          "ratio": 7.3
+        },
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        },
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        }
+      ]
+    }
+  },
+  {
+    "name": "dashboard-1280-dark.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "dark",
+    "url": "/",
+    "metrics": {
+      "innerWidth": 1280,
+      "docScrollWidth": 1280,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 64,
+        "width": 1280,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 340,
+        "right": 940,
+        "top": 12,
+        "bottom": 52,
+        "width": 600,
+        "height": 40
+      },
+      "tools": {
+        "left": 1068,
+        "right": 1256,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1166,
+        "scrollWidth": 1166
+      },
+      "filterFormHeight": null,
+      "menuPopupOpen": false,
+      "theme": "dark",
+      "bgContainer": "#171922",
+      "text": "#e6e8f0",
+      "statusContrast": [
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        },
+        {
+          "text": "已支付",
+          "ratio": 7.3
+        },
+        {
+          "text": "已完成",
+          "ratio": 8.18
+        },
+        {
+          "text": "待处理",
+          "ratio": 7.17
+        },
+        {
+          "text": "草稿",
+          "ratio": 6.48
+        }
+      ]
+    }
+  },
+  {
+    "name": "customers-1280-dark.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "dark",
+    "url": "/customers",
+    "metrics": {
+      "innerWidth": 1280,
+      "docScrollWidth": 1280,
+      "horizontalOverflow": 0,
+      "header": {
+        "left": 0,
+        "right": 1280,
+        "top": 0,
+        "bottom": 64,
+        "width": 1280,
+        "height": 64
+      },
+      "brand": {
+        "left": 24,
+        "right": 228,
+        "top": 15,
+        "bottom": 49,
+        "width": 204,
+        "height": 34
+      },
+      "nav": {
+        "left": 340,
+        "right": 940,
+        "top": 12,
+        "bottom": 52,
+        "width": 600,
+        "height": 40
+      },
+      "tools": {
+        "left": 1068,
+        "right": 1256,
+        "top": 16,
+        "bottom": 48,
+        "width": 188,
+        "height": 32
+      },
+      "brandOverlapsNav": false,
+      "navOverlapsTools": false,
+      "table": {
+        "clientWidth": 1174,
+        "scrollWidth": 1174
+      },
+      "filterFormHeight": 32,
+      "menuPopupOpen": false,
+      "theme": "dark",
+      "bgContainer": "#171922",
+      "text": "#e6e8f0",
+      "statusContrast": [
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "潜在客户",
+          "ratio": 7.3
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        },
+        {
+          "text": "已停用",
+          "ratio": 6.48
+        },
+        {
+          "text": "合作中",
+          "ratio": 8.18
+        }
+      ]
+    }
+  },
+  {
+    "name": "mobile-drawer-390-dark.png",
+    "width": 390,
+    "height": 844,
+    "theme": "dark",
+    "url": "/customers",
+    "drawer": {
+      "width": 320,
+      "left": 0,
+      "right": 320,
+      "height": 844
+    }
+  },
+  {
+    "name": "command-palette-1280-light.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "light",
+    "url": "/",
+    "modal": {
+      "top": 123,
+      "bottom": 677,
+      "left": 350,
+      "right": 930
+    }
+  },
+  {
+    "name": "form-drawer-1280-light.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "light",
+    "url": "/customers",
+    "drawer": {
+      "wrapper": {
+        "width": 560
+      },
+      "body": {
+        "top": 79,
+        "bottom": 751,
+        "clientHeight": 672,
+        "scrollHeight": 732
+      },
+      "footer": {
+        "top": 751,
+        "bottom": 800
+      },
+      "viewportHeight": 800
+    }
+  },
+  {
+    "name": "customers-selection-1280-light.png",
+    "width": 1280,
+    "height": 800,
+    "theme": "light",
+    "url": "/customers",
+    "batchBar": {
+      "top": 344,
+      "bottom": 387,
+      "height": 43
+    }
+  }
+]

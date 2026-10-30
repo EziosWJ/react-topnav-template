@@ -161,6 +161,13 @@ public/
   mockServiceWorker.js  MSW 浏览器 Service Worker（由 msw init 生成）
 ```
 
+## 设计系统与视觉验收
+
+- `docs/ui/DESIGN_SYSTEM.md`：颜色、字体、间距、组件、页面模式、响应式与可访问性规范。
+- `docs/ui/UI_REFACTOR_PLAN.md`：改造前问题、优先级、文件映射、实施顺序与验收标准。
+- `docs/ui/VISUAL_QA.md`：1920/1440/1280/1024/768/390 视口与 Light/Dark 主题的验收记录。
+- `docs/ui/screenshots/`：典型页面截图与 `qa-results.json` 测量数据。
+
 ## 质量与测试
 
 - 测试覆盖公共工具、路由配置、主题、API 错误、MSW 查询与 CRUD、DataTable 交互、命令搜索、模拟上传，以及客户/项目/订单/用户页面关键流程。

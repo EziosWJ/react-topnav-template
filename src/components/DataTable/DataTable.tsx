@@ -6,11 +6,12 @@ import {
   Segmented,
   Space,
   Table,
+  Tooltip,
   Typography,
   type TableColumnsType,
   type TableProps,
 } from 'antd';
-import { Columns3, X } from 'lucide-react';
+import { Columns3, RefreshCw, X } from 'lucide-react';
 import { PAGE_SIZE_OPTIONS } from '../../config/options';
 import { copy } from '../../config/copy';
 import { EmptyState, ErrorState } from '../AsyncState/AsyncState';
@@ -64,6 +65,9 @@ export interface DataTableProps<T extends object> {
   defaultDensity?: 'large' | 'middle' | 'small';
   defaultSelectionMode?: 'page' | 'all';
   scrollX?: number | string;
+  /** Table-level refresh lives in the toolbar; pages provide the refetch. */
+  onRefresh?: () => void;
+  refreshing?: boolean;
 }
 
 function columnKey<T>(column: DataTableColumn<T>): string | undefined {
@@ -101,6 +105,8 @@ export function DataTable<T extends object>({
   defaultDensity = 'middle',
   defaultSelectionMode = 'page',
   scrollX = 'max-content',
+  onRefresh,
+  refreshing,
 }: DataTableProps<T>) {
   const [density, setDensity] = useState(defaultDensity);
   const [hiddenKeys, setHiddenKeys] = useState<Set<string>>(new Set());
@@ -270,6 +276,17 @@ export function DataTable<T extends object>({
       <div className={styles.toolbar}>
         <div className={styles.toolbarLeft}>{toolbar}</div>
         <Space size={4} wrap className={styles.toolbarControls}>
+          {onRefresh && (
+            <Tooltip title={copy.table.refresh}>
+              <Button
+                size="small"
+                icon={<RefreshCw size={14} />}
+                loading={refreshing}
+                onClick={onRefresh}
+                aria-label={copy.table.refresh}
+              />
+            </Tooltip>
+          )}
           <Segmented
             size="small"
             aria-label={copy.table.density}

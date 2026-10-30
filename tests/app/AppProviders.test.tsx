@@ -40,6 +40,8 @@ describe('AppProviders theme system', () => {
     );
     expect(document.head.textContent).toContain('--ant-color-primary');
     expect(document.head.textContent).toContain('--ant-color-link');
+    expect(document.documentElement.style.getPropertyValue('--app-brand')).toBe('#635bdb');
+    expect(document.documentElement.style.getPropertyValue('--app-text')).toBe('#1f2330');
   });
 
   it('follows the operating system when no preference is stored', async () => {
@@ -51,6 +53,7 @@ describe('AppProviders theme system', () => {
     );
     expect(screen.getByTestId('theme-mode')).toHaveTextContent('dark');
     await waitFor(() => expect(document.documentElement.dataset.theme).toBe('dark'));
+    expect(document.documentElement.style.getPropertyValue('--app-text')).toBe('#e6e8f0');
   });
 
   it('prefers a saved user choice over the operating system', async () => {

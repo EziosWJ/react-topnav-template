@@ -72,7 +72,6 @@ export default function ProjectListPage() {
   const [form] = Form.useForm<ProjectFormValues>();
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
-  const [selectedRows, setSelectedRows] = useState<Project[]>([]);
 
   const {
     state,
@@ -89,6 +88,10 @@ export default function ProjectListPage() {
     hasActiveFilters,
     hasActiveQuery,
   } = useListUrlState(listConfig);
+  const hasCustomSort = Boolean(
+    state.sortBy &&
+      (state.sortBy !== listConfig.defaultSort?.field || state.sortOrder !== listConfig.defaultSort?.order),
+  );
   const query = listQuery as unknown as ProjectListQuery;
   const projectsQuery = useProjects(query);
   const filterSignature = JSON.stringify({
@@ -100,7 +103,6 @@ export default function ProjectListPage() {
 
   useEffect(() => {
     setSelectedRowKeys([]);
-    setSelectedRows([]);
   }, [filterSignature]);
 
   // Keep the URL page valid when a delete or filter shrinks the result set.
@@ -170,7 +172,6 @@ export default function ProjectListPage() {
           await deleteMutation.mutateAsync(record.id);
           message.success(copy.messages.projectDeleted);
           setSelectedRowKeys((keys) => keys.filter((key) => key !== record.id));
-          setSelectedRows((rows) => rows.filter((row) => row.id !== record.id));
         } catch (error) {
           message.error(getErrorMessage(error));
         }
@@ -257,7 +258,6 @@ export default function ProjectListPage() {
           <Button
             type="link"
             size="small"
-            danger
             className="table-action-danger"
             onClick={() => confirmDelete(record)}
           >
@@ -283,11 +283,17 @@ export default function ProjectListPage() {
           title: pageMeta.title,
           description: pageMeta.description,
           meta: (
-            <Typography.Text type="secondary" style={{ fontSize: 13 }}>
-              {projectsQuery.isPending
-                ? '正在统计项目数量…'
-                : `共 ${projectsQuery.data?.total ?? 0} 个项目 · 演示数据保存在内存中，刷新后重置`}
+            <Typography.Text type="secondary" className="page-meta-note">
+              {copy.common.demoMemory}
             </Typography.Text>
+          ),
+          extra: (
+            <Space wrap size={8}>
+              <Button type="primary" icon={<Plus size={15} />} onClick={openCreate}>
+                {copy.actions.newProject}
+              </Button>
+              <ExportButton onExport={exportFiltered} disabled={projectsQuery.isFetching} />
+            </Space>
           ),
         }}
         filterBar={
@@ -301,7 +307,7 @@ export default function ProjectListPage() {
             placeholder="搜索项目名称、编码或负责人"
             filters={
               <>
-                <div style={{ width: 200 }}>
+                <div style={{ width: 'min(200px, 100%)' }}>
                   <CustomerSelect
                     placeholder="关联客户"
                     value={state.filters.customerId}
@@ -343,21 +349,15 @@ export default function ProjectListPage() {
             resultSummary={
               projectsQuery.isPending ? (
                 '正在加载…'
-              ) : (
+              ) : hasActiveFilters ? (
                 <>
-                  共 <strong>{projectsQuery.data?.total ?? 0}</strong> 条
-                  {state.keyword ? ` · 关键词「${state.keyword}」` : ''}
-                  {hasActiveFilters ? ' · 已应用筛选' : ''}
+                  {state.keyword ? `关键词「${state.keyword}」` : '当前列表'}
+                  {Object.keys(state.filters).length > 0
+                    ? ` · ${Object.keys(state.filters).length} 个筛选条件`
+                    : ''}
+                  {hasCustomSort ? ' · 已排序' : ''}
                 </>
-              )
-            }
-            actions={
-              <Space wrap size={8}>
-                <Button type="primary" icon={<Plus size={15} />} onClick={openCreate}>
-                  {copy.actions.newProject}
-                </Button>
-                <ExportButton onExport={exportFiltered} disabled={projectsQuery.isFetching} />
-              </Space>
+              ) : undefined
             }
           />
         }
@@ -371,6 +371,8 @@ export default function ProjectListPage() {
           loading={projectsQuery.isFetching}
           error={projectsQuery.error}
           onRetry={() => void projectsQuery.refetch()}
+          onRefresh={() => void projectsQuery.refetch()}
+          refreshing={projectsQuery.isFetching}
           emptyTitle="暂无项目"
           emptyDescription="调整筛选条件，或创建第一个项目。"
           emptyAction={
@@ -389,10 +391,7 @@ export default function ProjectListPage() {
           }}
           rowSelection={{
             selectedRowKeys,
-            onChange: (keys, rows) => {
-              setSelectedRowKeys(keys);
-              setSelectedRows(rows);
-            },
+            onChange: (keys) => setSelectedRowKeys(keys),
           }}
           sortState={{ field: state.sortBy, order: state.sortOrder }}
           onSortChange={setSort}
@@ -408,11 +407,6 @@ export default function ProjectListPage() {
               }}
             />
           )}
-          toolbar={
-            selectedRows.length > 0 ? (
-              <Typography.Text type="secondary">已选 {selectedRows.length} 条</Typography.Text>
-            ) : null
-          }
         />
       </ListPageTemplate>
 

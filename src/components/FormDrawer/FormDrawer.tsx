@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Alert, Button, Drawer, Form, Space, Typography, type FormInstance } from 'antd';
 import { getErrorMessage } from '../../lib/api/errors';
 import { copy } from '../../config/copy';
+import { layoutTokens } from '../../styles/tokens';
 import styles from './FormDrawer.module.css';
 
 export interface FormDrawerProps<T> {
@@ -29,7 +30,7 @@ export function FormDrawer<T>({
   error,
   children,
   submitText = copy.form.save,
-  width = 540,
+  width = layoutTokens.drawerWidthNarrow,
 }: FormDrawerProps<T>) {
   return (
     <Drawer
@@ -46,12 +47,14 @@ export function FormDrawer<T>({
       }
       size={width}
       styles={{ wrapper: { maxWidth: '100vw' } }}
+      className={styles.drawer}
+      classNames={{ body: styles.body, footer: styles.footerBar, header: styles.header }}
       onClose={onClose}
       closable={!submitting}
       maskClosable={!submitting}
       destroyOnHidden
       footer={
-        <Space className={styles.footer}>
+        <Space className={styles.footerActions}>
           <Button onClick={onClose} disabled={submitting}>
             {copy.form.cancel}
           </Button>
@@ -62,7 +65,13 @@ export function FormDrawer<T>({
       }
     >
       {error !== undefined && error !== null && (
-        <Alert type="error" showIcon title={copy.common.saveFailed} description={getErrorMessage(error)} className={styles.alert} />
+        <Alert
+          type="error"
+          showIcon
+          title={copy.common.saveFailed}
+          description={getErrorMessage(error)}
+          className={styles.alert}
+        />
       )}
       <Form<T> form={form} layout="vertical" onFinish={onFinish} scrollToFirstError requiredMark>
         {children}

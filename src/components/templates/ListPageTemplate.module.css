@@ -1,14 +1,17 @@
 .page { display: grid; }
 .card {
   overflow: hidden;
-  border-radius: 12px;
-  box-shadow: var(--ant-box-shadow-tertiary, 0 1px 2px rgb(24 26 40 / 5%));
+  border-color: var(--app-border-secondary, #eceef4);
+  border-radius: var(--app-radius-lg, 12px);
+  box-shadow: var(--app-shadow-card, 0 1px 2px rgb(24 26 40 / 5%));
 }
+.card :global(.ant-card-body) { padding: 20px; }
 .filter {
-  padding-bottom: 14px;
-  margin-bottom: 14px;
-  border-bottom: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--app-border-secondary, #eceef4);
 }
 @media (max-width: 575px) {
-  .filter { padding-bottom: 12px; margin-bottom: 12px; }
+  .card :global(.ant-card-body) { padding: 16px 14px; }
+  .filter { padding-bottom: 14px; margin-bottom: 14px; }
 }

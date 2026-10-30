@@ -17,6 +17,14 @@ describe('StatusTag', () => {
     expect(screen.getByText('停用')).toBeInTheDocument();
   });
 
+  it('exposes theme-aware tone variables for light and dark surfaces', () => {
+    const { container } = render(<StatusTag kind="customer" value="active" />);
+    const tag = container.querySelector('.status-tag') as HTMLElement;
+    expect(tag.style.getPropertyValue('--status-color')).toBe('#15803d');
+    expect(tag.style.getPropertyValue('--status-color-dark')).toBe('#4ade80');
+    expect(tag.style.getPropertyValue('--status-bg-dark')).toBe('#172f28');
+  });
+
   it('falls back to the raw value for unknown statuses', () => {
     render(<StatusTag kind="project" value="legacy_status" />);
     expect(screen.getByText('legacy_status')).toBeInTheDocument();

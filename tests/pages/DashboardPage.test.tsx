@@ -9,6 +9,7 @@ import { renderWithRouter } from '../testUtils';
 vi.mock('@ant-design/charts', () => ({
   Pie: () => <div data-testid="pie-chart" />,
   Column: () => <div data-testid="column-chart" />,
+  Line: () => <div data-testid="line-chart" />,
 }));
 
 const { default: DashboardPage } = await import('../../src/pages/DashboardPage');
@@ -32,8 +33,10 @@ describe('DashboardPage', () => {
 
     expect(screen.getByTestId('pie-chart')).toBeInTheDocument();
     expect(screen.getByTestId('column-chart')).toBeInTheDocument();
+    expect(screen.getByTestId('line-chart')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /项目状态分布图/ })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /订单数量与金额趋势图/ })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /订单数量趋势图/ })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /订单金额趋势图/ })).toBeInTheDocument();
     expect(screen.getByText('最近订单')).toBeInTheDocument();
     expect(screen.getByText(/ORD-\d{4}-0001/)).toBeInTheDocument();
   });
@@ -57,6 +60,32 @@ describe('DashboardPage', () => {
 
     expect(await screen.findByText('统计服务不可用', {}, { timeout: 8000 })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /重新加载/ })).toBeInTheDocument();
+  });
+
+  it('renders order count and amount charts independently when only one metric has data', async () => {
+    const partial: DashboardSummary = {
+      range: '30d',
+      rangeLabel: '近 30 天',
+      from: '2026-01-01',
+      to: '2026-01-30',
+      metrics: {
+        customerCount: 1,
+        activeProjectCount: 0,
+        pendingOrderCount: 1,
+        userCount: 1,
+        rangeOrderCount: 2,
+        rangeOrderAmount: 0,
+      },
+      projectStatus: [{ status: 'planning', count: 1 }],
+      orderTrend: [{ label: '01-01', orderCount: 2, amount: 0 }],
+      recentOrders: [],
+    };
+    server.use(http.get('/api/dashboard/summary', () => HttpResponse.json(partial)));
+    renderDashboard();
+
+    expect(await screen.findByTestId('column-chart', {}, { timeout: 8000 })).toBeInTheDocument();
+    expect(screen.queryByTestId('line-chart')).not.toBeInTheDocument();
+    expect(screen.getByText('暂无订单趋势')).toBeInTheDocument();
   });
 
   it('shows empty chart states when there is no business data', async () => {
@@ -87,7 +116,9 @@ describe('DashboardPage', () => {
     renderDashboard();
 
     expect(await screen.findByText('暂无项目数据', {}, { timeout: 8000 })).toBeInTheDocument();
-    expect(screen.getByText('暂无订单趋势')).toBeInTheDocument();
+    expect(screen.getAllByText('暂无订单趋势')).toHaveLength(2);
     expect(screen.getByText('暂无订单')).toBeInTheDocument();
+    expect(screen.queryByTestId('column-chart')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('line-chart')).not.toBeInTheDocument();
   });
 });

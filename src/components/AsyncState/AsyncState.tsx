@@ -5,10 +5,36 @@ import { getErrorMessage } from '../../lib/api/errors';
 import { copy } from '../../config/copy';
 import styles from './AsyncState.module.css';
 
-export function LoadingState({ label = copy.common.loading, rows = 4 }: { label?: string; rows?: number }) {
+export type LoadingVariant = 'detail' | 'list' | 'cards';
+
+export function LoadingState({
+  label = copy.common.loading,
+  rows = 4,
+  variant = 'detail',
+}: {
+  label?: string;
+  rows?: number;
+  /** Mirrors the shape of the content that is loading to avoid a layout jump. */
+  variant?: LoadingVariant;
+}) {
   return (
     <div className={styles.loading} role="status" aria-live="polite" aria-label={label}>
-      <Skeleton active paragraph={{ rows }} title />
+      {variant === 'cards' ? (
+        <div className={styles.cards}>
+          {Array.from({ length: 3 }, (_, index) => (
+            <Skeleton key={index} active paragraph={{ rows: 2 }} title />
+          ))}
+        </div>
+      ) : variant === 'list' ? (
+        <div className={styles.list}>
+          <Skeleton active title={false} paragraph={{ rows: 1 }} />
+          {Array.from({ length: rows }, (_, index) => (
+            <Skeleton.Input key={index} active block size="small" />
+          ))}
+        </div>
+      ) : (
+        <Skeleton active paragraph={{ rows }} title />
+      )}
       <span className={styles.visuallyHidden}>{label}</span>
     </div>
   );
@@ -55,6 +81,7 @@ export function EmptyState({
 }) {
   return (
     <Empty
+      className={styles.empty}
       image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={
         <Space orientation="vertical" size={4}>

@@ -96,6 +96,8 @@ describe('AppLayout', () => {
       expect(await screen.findByRole('menuitem', { name: /业务管理/ })).toBeInTheDocument();
       expect(screen.getByRole('menuitem', { name: /仪表盘/ })).toBeInTheDocument();
       expect(screen.queryByRole('button', { name: '打开导航菜单' })).not.toBeInTheDocument();
+      // Desktop dropdowns stay closed until the user opens them.
+      expect(screen.queryByRole('menuitem', { name: /客户管理/ })).not.toBeInTheDocument();
     } finally {
       Object.defineProperty(window, 'matchMedia', { writable: true, value: originalMatchMedia });
     }

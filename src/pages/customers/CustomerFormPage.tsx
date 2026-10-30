@@ -10,7 +10,6 @@ import {
 import { useCreateCustomer, useCustomer, useUpdateCustomer } from '../../features/customers/queries';
 import type { CustomerInput } from '../../types/entities';
 import { copy } from '../../config/copy';
-import { PageHeader } from '../../components/PageHeader/PageHeader';
 import { FormPage } from '../../components/FormPage/FormPage';
 import { LoadingState, ErrorState } from '../../components/AsyncState/AsyncState';
 import { applyServerFieldErrors } from '../../lib/forms';
@@ -73,26 +72,28 @@ export default function CustomerFormPage() {
   };
 
   return (
-    <div>
-      <PageHeader
-        title={isEdit ? `${copy.actions.editCustomer}${customerQuery.data ? `：${customerQuery.data.name}` : ''}` : copy.actions.newCustomer}
-        description={isEdit ? '更新客户资料，保存后返回详情页。' : '创建客户档案，保存后进入详情页继续查看关联业务。'}
-        extra={
+    <FormPage<CustomerInput>
+      header={{
+        title: isEdit
+          ? `${copy.actions.editCustomer}${customerQuery.data ? `：${customerQuery.data.name}` : ''}`
+          : copy.actions.newCustomer,
+        description: isEdit
+          ? '更新客户资料，保存后返回详情页。'
+          : '创建客户档案，保存后进入详情页继续查看关联业务。',
+        extra: (
           <Button icon={<ArrowLeft size={15} />} onClick={handleCancel}>
             返回
           </Button>
-        }
-      />
-      <FormPage<CustomerInput>
-        form={form}
-        onFinish={handleFinish}
-        onCancel={handleCancel}
-        submitting={createMutation.isPending || updateMutation.isPending}
-        error={isEdit ? updateMutation.error : createMutation.error}
-        submitText={isEdit ? copy.form.saveChanges : copy.actions.createCustomer}
-      >
-        <CustomerFormFields />
-      </FormPage>
-    </div>
+        ),
+      }}
+      form={form}
+      onFinish={handleFinish}
+      onCancel={handleCancel}
+      submitting={createMutation.isPending || updateMutation.isPending}
+      error={isEdit ? updateMutation.error : createMutation.error}
+      submitText={isEdit ? copy.form.saveChanges : copy.actions.createCustomer}
+    >
+      <CustomerFormFields />
+    </FormPage>
   );
 }

@@ -127,7 +127,7 @@ export default function OrderDetailPage() {
       <DetailSection title="金额说明">
         <Space orientation="vertical" size={4}>
           <span>本订单金额：<strong>{formatCurrency(order.amount)}</strong></span>
-          <span style={{ color: 'var(--ant-color-text-secondary)' }}>
+          <span style={{ color: 'var(--app-text-secondary, #5c6273)' }}>
             金额以人民币展示；演示数据不做税费或汇率计算。
           </span>
         </Space>

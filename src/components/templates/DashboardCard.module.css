@@ -1,2 +1,18 @@
-.card { height: 100%; border-radius: 14px; }
-.body { display: flex; flex-direction: column; justify-content: center; }
+.card {
+  height: 100%;
+  border-color: var(--app-border-secondary, #eceef4);
+  border-radius: var(--app-radius-xl, 14px);
+  box-shadow: var(--app-shadow-card, 0 1px 2px rgb(24 26 40 / 5%));
+}
+.card :global(.ant-card-head) {
+  min-height: 52px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--app-border-secondary, #eceef4);
+}
+.card :global(.ant-card-head-title) { font-size: 15px; font-weight: 600; }
+.card :global(.ant-card-body) { padding: 16px 20px 20px; }
+.body { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+@media (max-width: 575px) {
+  .card :global(.ant-card-head) { padding: 0 16px; }
+  .card :global(.ant-card-body) { padding: 14px 16px 16px; }
+}

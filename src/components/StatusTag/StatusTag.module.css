@@ -2,20 +2,25 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 22px;
   padding: 1px 10px;
   border-radius: 999px;
+  color: var(--status-color);
+  background: var(--status-bg);
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
   white-space: nowrap;
-  color: var(--status-color);
-  background: var(--status-bg);
 }
 .dot {
   width: 6px;
   height: 6px;
+  flex: 0 0 6px;
   border-radius: 50%;
-  background: var(--status-color);
+  background: currentColor;
   opacity: 0.9;
 }
-:global([data-theme='dark']) .statusTag { background: var(--status-bg-dark); }
+:global([data-theme='dark']) .statusTag {
+  color: var(--status-color-dark);
+  background: var(--status-bg-dark);
+}

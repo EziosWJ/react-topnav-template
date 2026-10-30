@@ -73,6 +73,25 @@ describe('DataTable', () => {
     expect(container.querySelector('.ant-table-small')).toBeNull();
   });
 
+  it('exposes a table-level refresh control', async () => {
+    const user = userEvent.setup({ delay: null });
+    const onRefresh = vi.fn();
+    renderWithProviders(
+      <DataTable<Row>
+        tableId="refresh-table"
+        tableLabel="刷新表格"
+        rowKey="id"
+        columns={columns}
+        dataSource={rows}
+        pagination={{ current: 1, pageSize: 10, total: rows.length, onChange: vi.fn() }}
+        onRefresh={onRefresh}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: '刷新表格' }));
+    expect(onRefresh).toHaveBeenCalledTimes(1);
+  });
+
   it('toggles column visibility', async () => {
     const user = userEvent.setup({ delay: null });
     renderWithProviders(<Harness />);

@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { Alert, Button, Card, Col, Row, Segmented, Space, Table, Tag, Typography } from 'antd';
-import { Column, Pie, type ColumnConfig, type PieConfig } from '@ant-design/charts';
+import {
+  Column,
+  Line,
+  Pie,
+  type ColumnConfig,
+  type LineConfig,
+  type PieConfig,
+} from '@ant-design/charts';
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -12,7 +19,6 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { dashboardRangeOptions, projectStatusMeta } from '../config/options';
-import { appConfig } from '../config/app.config';
 import { useDashboardSummary } from '../features/dashboard/queries';
 import { useAppPreferences } from '../app/AppProviders';
 import type { DashboardRange, Order } from '../types/entities';
@@ -23,20 +29,25 @@ import { PageHeader } from '../components/PageHeader/PageHeader';
 import { ErrorState, EmptyState, LoadingState } from '../components/AsyncState/AsyncState';
 import { DashboardCard } from '../components/templates/DashboardCard';
 import { StatusTag } from '../components/StatusTag/StatusTag';
+import { chartPalettes, kpiAccents } from '../styles/tokens';
 import styles from './DashboardPage.module.css';
 import { routeDefinitions } from '../config/routes';
 
 interface KpiDefinition {
-  key: string;
+  key: 'customers' | 'projects' | 'orders' | 'users';
   label: string;
   value: number;
   hint: string;
   href: string;
   icon: LucideIcon;
-  color: string;
 }
 
 const pageMeta = routeDefinitions.find((route) => route.path === '/')!;
+
+function compactAmount(value: number): string {
+  if (value >= 10_000) return `${Math.round(value / 10_000)}万`;
+  return formatNumber(value);
+}
 
 export default function DashboardPage() {
   const [range, setRange] = useState<DashboardRange>('30d');
@@ -44,8 +55,7 @@ export default function DashboardPage() {
   const summaryQuery = useDashboardSummary(range);
   const summary = summaryQuery.data;
   const isDark = themeMode === 'dark';
-  const textColor = isDark ? '#d7d9e3' : '#4b4f5c';
-  const gridColor = isDark ? '#2a2e3d' : '#eceef5';
+  const palette = chartPalettes[themeMode];
 
   const kpis: KpiDefinition[] = summary
     ? [
@@ -56,7 +66,6 @@ export default function DashboardPage() {
           hint: copy.dashboard.viewAllCustomers,
           href: '/customers',
           icon: Users,
-          color: '#635bdb',
         },
         {
           key: 'projects',
@@ -65,7 +74,6 @@ export default function DashboardPage() {
           hint: copy.dashboard.viewActiveProjects,
           href: '/projects?status=in_progress',
           icon: BriefcaseBusiness,
-          color: '#2f9e8f',
         },
         {
           key: 'orders',
@@ -74,7 +82,6 @@ export default function DashboardPage() {
           hint: copy.dashboard.viewPendingOrders,
           href: '/orders?status=pending',
           icon: ClipboardList,
-          color: '#d98a1f',
         },
         {
           key: 'users',
@@ -83,7 +90,6 @@ export default function DashboardPage() {
           hint: copy.dashboard.viewUsers,
           href: '/users',
           icon: UserRoundCog,
-          color: '#3f7cc7',
         },
       ]
     : [];
@@ -94,49 +100,90 @@ export default function DashboardPage() {
   }));
   const trendData = summary?.orderTrend ?? [];
   const hasProjectData = pieData.some((item) => item.count > 0);
-  const hasTrendData = trendData.some((item) => item.orderCount > 0 || item.amount > 0);
+  const hasCountData = trendData.some((item) => item.orderCount > 0);
+  const hasAmountData = trendData.some((item) => item.amount > 0);
+
+  const chartTheme = isDark ? 'classicDark' : 'classic';
 
   const pieConfig: PieConfig = {
     data: pieData,
     angleField: 'count',
     colorField: 'label',
     innerRadius: 0.62,
-    height: 290,
+    height: 260,
     autoFit: true,
     legend: {
-      color: { position: 'bottom', itemLabelFill: textColor },
+      color: { position: 'bottom', itemLabelFill: palette.axis },
     },
     label: {
       text: (datum: { count: number }) => String(datum.count),
       style: { fill: isDark ? '#0f1117' : '#ffffff', fontWeight: 600 },
     },
-    scale: {
-      color: {
-        range: ['#635bdb', '#8b7cf6', '#2f9e8f', '#d98a1f', '#d95c5c'],
-      },
-    },
+    scale: { color: { range: palette.categories } },
     tooltip: {
       title: 'label',
       items: [{ field: 'count', name: copy.dashboard.projectCount }],
     },
-    theme: isDark ? 'classicDark' : 'classic',
+    theme: chartTheme,
   };
 
-  const columnConfig: ColumnConfig = {
+  const countConfig: ColumnConfig = {
     data: trendData,
     xField: 'label',
     yField: 'orderCount',
-    height: 290,
+    height: 260,
     autoFit: true,
     axis: {
-      x: { labelFill: textColor, labelAutoRotate: false, labelAutoHide: true },
-      y: { labelFill: textColor, gridStroke: gridColor },
+      x: {
+        labelFill: palette.axis,
+        labelFontSize: 11,
+        labelAutoRotate: false,
+        labelAutoHide: true,
+      },
+      y: {
+        labelFill: palette.axis,
+        gridStroke: palette.grid,
+        gridStrokeOpacity: 0.8,
+        labelFormatter: (value: number) => formatNumber(value),
+      },
     },
-    style: { fill: appConfig.brandColor, radiusTopLeft: 4, radiusTopRight: 4 },
+    style: { fill: palette.count, radiusTopLeft: 4, radiusTopRight: 4 },
+    tooltip: {
+      title: 'label',
+      items: [{ field: 'orderCount', name: copy.dashboard.orderCount }],
+    },
+    theme: chartTheme,
+  };
+
+  const amountConfig: LineConfig = {
+    data: trendData,
+    xField: 'label',
+    yField: 'amount',
+    height: 260,
+    autoFit: true,
+    axis: {
+      x: {
+        labelFill: palette.axis,
+        labelFontSize: 11,
+        labelAutoRotate: false,
+        labelAutoHide: true,
+      },
+      y: {
+        labelFill: palette.axis,
+        gridStroke: palette.grid,
+        gridStrokeOpacity: 0.8,
+        labelFormatter: (value: number) => compactAmount(value),
+      },
+    },
+    style: { stroke: palette.amount, lineWidth: 2 },
+    point: {
+      size: 3,
+      shape: 'circle',
+      style: { fill: palette.amount, stroke: palette.amount },
+    },
     tooltip: {
       title: 'label',
       items: [
-        { field: 'orderCount', name: copy.dashboard.orderCount },
         {
           field: 'amount',
           name: copy.dashboard.orderAmount,
@@ -144,7 +191,7 @@ export default function DashboardPage() {
         },
       ],
     },
-    theme: isDark ? 'classicDark' : 'classic',
+    theme: chartTheme,
   };
 
   const recentColumns = [
@@ -174,7 +221,7 @@ export default function DashboardPage() {
       dataIndex: 'amount',
       width: 150,
       align: 'right' as const,
-      render: (value: number) => formatCurrency(value),
+      render: (value: number) => <span className="table-amount">{formatCurrency(value)}</span>,
     },
     {
       title: copy.dashboard.columns.orderDate,
@@ -183,6 +230,12 @@ export default function DashboardPage() {
       render: (value: string) => formatDate(value),
     },
   ];
+
+  const trendExtra = (
+    <Typography.Text type="secondary" className={styles.chartExtra}>
+      {summary?.rangeLabel} · {copy.dashboard.noCancelled}
+    </Typography.Text>
+  );
 
   return (
     <div className={styles.page}>
@@ -240,27 +293,40 @@ export default function DashboardPage() {
       {summaryQuery.error && !summary ? (
         <ErrorState error={summaryQuery.error} title={copy.dashboard.loadFailed} onRetry={() => void summaryQuery.refetch()} />
       ) : summaryQuery.isPending ? (
-        <LoadingState label={copy.dashboard.loadingLabel} rows={8} />
+        <LoadingState label={copy.dashboard.loadingLabel} variant="cards" />
       ) : summary ? (
         <>
           <Row gutter={[16, 16]}>
             {kpis.map((kpi) => {
               const Icon = kpi.icon;
+              const accent = kpiAccents[kpi.key][themeMode];
               return (
                 <Col xs={24} sm={12} xl={6} key={kpi.key}>
-                  <Link to={kpi.href} className={styles.kpiLink} aria-label={`${kpi.label}：${kpi.value}，${kpi.hint}`}>
+                  <Link
+                    to={kpi.href}
+                    className={styles.kpiLink}
+                    aria-label={`${kpi.label}：${kpi.value}，${kpi.hint}`}
+                  >
                     <Card hoverable className={styles.kpiCard}>
                       <div className={styles.kpiTop}>
-                        <span className={styles.kpiIcon} style={{ color: kpi.color, background: `${kpi.color}18` }}>
-                          <Icon size={19} aria-hidden="true" />
+                        <span
+                          className={styles.kpiIcon}
+                          style={{
+                            color: accent,
+                            background: `${accent}1f`,
+                          }}
+                        >
+                          <Icon size={18} aria-hidden="true" />
                         </span>
-                        <Typography.Text type="secondary">{kpi.label}</Typography.Text>
+                        <Typography.Text type="secondary" className={styles.kpiLabel}>
+                          {kpi.label}
+                        </Typography.Text>
                       </div>
                       <div className={styles.kpiValue}>{formatNumber(kpi.value)}</div>
-                      <div className={styles.kpiHint}>
+                      <span className={styles.kpiHint}>
                         <span>{kpi.hint}</span>
                         <ArrowRight size={14} aria-hidden="true" />
-                      </div>
+                      </span>
                     </Card>
                   </Link>
                 </Col>
@@ -269,11 +335,12 @@ export default function DashboardPage() {
           </Row>
 
           <Row gutter={[16, 16]}>
-            <Col xs={24} xl={10}>
+            <Col xs={24} xl={8}>
               <DashboardCard
                 title={copy.dashboard.projectStatus}
                 extra={<Typography.Text type="secondary">{copy.dashboard.allProjects}</Typography.Text>}
                 loading={summaryQuery.isFetching && !summary}
+                height={300}
               >
                 {hasProjectData ? (
                   <div role="img" aria-label={copy.dashboard.projectChartLabel(summary.rangeLabel)}>
@@ -284,19 +351,32 @@ export default function DashboardPage() {
                 )}
               </DashboardCard>
             </Col>
-            <Col xs={24} xl={14}>
+            <Col xs={24} xl={8}>
               <DashboardCard
-                title={copy.dashboard.orderTrend}
-                extra={
-                  <Typography.Text type="secondary">
-                    {summary.rangeLabel} · {copy.dashboard.noCancelled}
-                  </Typography.Text>
-                }
+                title={copy.dashboard.orderCountTrend}
+                extra={trendExtra}
                 loading={summaryQuery.isFetching && !summary}
+                height={300}
               >
-                {hasTrendData ? (
-                  <div role="img" aria-label={copy.dashboard.trendChartLabel(summary.rangeLabel)}>
-                    <Column {...columnConfig} />
+                {hasCountData ? (
+                  <div role="img" aria-label={copy.dashboard.orderCountChartLabel(summary.rangeLabel)}>
+                    <Column {...countConfig} />
+                  </div>
+                ) : (
+                  <EmptyState title={copy.dashboard.noTrendData} description={copy.dashboard.noTrendDescription} />
+                )}
+              </DashboardCard>
+            </Col>
+            <Col xs={24} xl={8}>
+              <DashboardCard
+                title={copy.dashboard.orderAmountTrend}
+                extra={trendExtra}
+                loading={summaryQuery.isFetching && !summary}
+                height={300}
+              >
+                {hasAmountData ? (
+                  <div role="img" aria-label={copy.dashboard.orderAmountChartLabel(summary.rangeLabel)}>
+                    <Line {...amountConfig} />
                   </div>
                 ) : (
                   <EmptyState title={copy.dashboard.noTrendData} description={copy.dashboard.noTrendDescription} />
@@ -305,13 +385,21 @@ export default function DashboardPage() {
             </Col>
           </Row>
 
+          <Typography.Paragraph type="secondary" className={styles.trendNote}>
+            {copy.dashboard.trendDescription}
+          </Typography.Paragraph>
+
           <Card
             className={styles.recentCard}
             title={copy.dashboard.recentOrders}
             extra={<Link to="/orders">{copy.dashboard.viewAllOrders}</Link>}
           >
             {summary.recentOrders.length === 0 ? (
-              <EmptyState title={copy.dashboard.noOrders} description={copy.dashboard.noOrdersDescription} action={<Link to="/orders/new">{copy.dashboard.newOrder}</Link>} />
+              <EmptyState
+                title={copy.dashboard.noOrders}
+                description={copy.dashboard.noOrdersDescription}
+                action={<Link to="/orders/new">{copy.dashboard.newOrder}</Link>}
+              />
             ) : (
               <Table<Order>
                 rowKey="id"

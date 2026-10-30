@@ -70,7 +70,6 @@ export default function CustomerListPage() {
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
-  const [selectedRows, setSelectedRows] = useState<Customer[]>([]);
 
   const {
     state,
@@ -86,6 +85,10 @@ export default function CustomerListPage() {
     hasActiveFilters,
     hasActiveQuery,
   } = useListUrlState(listConfig);
+  const hasCustomSort = Boolean(
+    state.sortBy &&
+      (state.sortBy !== listConfig.defaultSort?.field || state.sortOrder !== listConfig.defaultSort?.order),
+  );
   const query = listQuery as unknown as CustomerListQuery;
   const customersQuery = useCustomers(query);
 
@@ -98,7 +101,6 @@ export default function CustomerListPage() {
 
   useEffect(() => {
     setSelectedRowKeys([]);
-    setSelectedRows([]);
   }, [filterSignature]);
 
   // Keep the URL page valid when a delete or filter shrinks the result set.
@@ -170,7 +172,6 @@ export default function CustomerListPage() {
           await deleteMutation.mutateAsync(record.id);
           message.success(copy.messages.customerDeleted);
           setSelectedRowKeys((keys) => keys.filter((key) => key !== record.id));
-          setSelectedRows((rows) => rows.filter((row) => row.id !== record.id));
         } catch (error) {
           message.error(getErrorMessage(error));
         }
@@ -254,7 +255,6 @@ export default function CustomerListPage() {
           <Button
             type="link"
             size="small"
-            danger
             className="table-action-danger"
             onClick={() => confirmDelete(record)}
           >
@@ -275,11 +275,20 @@ export default function CustomerListPage() {
           title: pageMeta.title,
           description: pageMeta.description,
           meta: (
-            <Typography.Text type="secondary" style={{ fontSize: 13 }}>
-              {customersQuery.isPending
-                ? '正在统计客户数量…'
-                : `共 ${customersQuery.data?.total ?? 0} 位客户 · 演示数据保存在内存中，刷新后重置`}
+            <Typography.Text type="secondary" className="page-meta-note">
+              {copy.common.demoMemory}
             </Typography.Text>
+          ),
+          extra: (
+            <Space wrap size={8}>
+              <Button type="primary" icon={<Plus size={15} />} onClick={openCreate}>
+                {copy.actions.newCustomer}
+              </Button>
+              <Button icon={<Upload size={15} />} onClick={() => setUploadOpen(true)}>
+                {copy.actions.importCustomers}
+              </Button>
+              <ExportButton onExport={exportFiltered} disabled={customersQuery.isFetching} />
+            </Space>
           ),
         }}
         filterBar={
@@ -316,24 +325,15 @@ export default function CustomerListPage() {
             resultSummary={
               customersQuery.isPending ? (
                 '正在加载…'
-              ) : (
+              ) : hasActiveFilters ? (
                 <>
-                  共 <strong>{customersQuery.data?.total ?? 0}</strong> 条
-                  {state.keyword ? ` · 关键词「${state.keyword}」` : ''}
-                  {hasActiveFilters ? ' · 已应用筛选' : ''}
+                  {state.keyword ? `关键词「${state.keyword}」` : '当前列表'}
+                  {Object.keys(state.filters).length > 0
+                    ? ` · ${Object.keys(state.filters).length} 个筛选条件`
+                    : ''}
+                  {hasCustomSort ? ' · 已排序' : ''}
                 </>
-              )
-            }
-            actions={
-              <Space wrap size={8}>
-                <Button type="primary" icon={<Plus size={15} />} onClick={openCreate}>
-                  {copy.actions.newCustomer}
-                </Button>
-                <Button icon={<Upload size={15} />} onClick={() => setUploadOpen(true)}>
-                  {copy.actions.importCustomers}
-                </Button>
-                <ExportButton onExport={exportFiltered} disabled={customersQuery.isFetching} />
-              </Space>
+              ) : undefined
             }
           />
         }
@@ -342,11 +342,14 @@ export default function CustomerListPage() {
           tableId="customers"
           tableLabel="客户列表"
           rowKey="id"
+          scrollX={1040}
           columns={columns}
           dataSource={customersQuery.data?.items ?? []}
           loading={customersQuery.isFetching}
           error={customersQuery.error}
           onRetry={() => void customersQuery.refetch()}
+          onRefresh={() => void customersQuery.refetch()}
+          refreshing={customersQuery.isFetching}
           emptyTitle="暂无客户"
           emptyDescription="调整筛选条件，或创建第一位客户。"
           emptyAction={
@@ -365,10 +368,7 @@ export default function CustomerListPage() {
           }}
           rowSelection={{
             selectedRowKeys,
-            onChange: (keys, rows) => {
-              setSelectedRowKeys(keys);
-              setSelectedRows(rows);
-            },
+            onChange: (keys) => setSelectedRowKeys(keys),
           }}
           sortState={{ field: state.sortBy, order: state.sortOrder }}
           onSortChange={setSort}
@@ -384,11 +384,6 @@ export default function CustomerListPage() {
               }}
             />
           )}
-          toolbar={
-            selectedRows.length > 0 ? (
-              <Typography.Text type="secondary">已选 {selectedRows.length} 条</Typography.Text>
-            ) : null
-          }
         />
       </ListPageTemplate>
 

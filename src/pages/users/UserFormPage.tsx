@@ -10,7 +10,6 @@ import {
 import { useCreateUser, useUpdateUser, useUser } from '../../features/users/queries';
 import type { UserInput } from '../../types/entities';
 import { copy } from '../../config/copy';
-import { PageHeader } from '../../components/PageHeader/PageHeader';
 import { FormPage } from '../../components/FormPage/FormPage';
 import { ErrorState, LoadingState } from '../../components/AsyncState/AsyncState';
 import { applyServerFieldErrors } from '../../lib/forms';
@@ -64,26 +63,26 @@ export default function UserFormPage() {
   };
 
   return (
-    <div>
-      <PageHeader
-        title={isEdit ? `${copy.actions.editUser}${userQuery.data ? `：${userQuery.data.name}` : ''}` : copy.actions.newUser}
-        description={isEdit ? '更新业务用户资料。' : '填写业务用户资料，不涉及真实账号或密码。'}
-        extra={
+    <FormPage<UserInput>
+      header={{
+        title: isEdit
+          ? `${copy.actions.editUser}${userQuery.data ? `：${userQuery.data.name}` : ''}`
+          : copy.actions.newUser,
+        description: isEdit ? '更新业务用户资料。' : '填写业务用户资料，不涉及真实账号或密码。',
+        extra: (
           <Button icon={<ArrowLeft size={15} />} onClick={handleCancel}>
             返回
           </Button>
-        }
-      />
-      <FormPage<UserInput>
-        form={form}
-        onFinish={handleFinish}
-        onCancel={handleCancel}
-        submitting={createMutation.isPending || updateMutation.isPending}
-        error={isEdit ? updateMutation.error : createMutation.error}
-        submitText={isEdit ? copy.form.saveChanges : copy.actions.createUser}
-      >
-        <UserFormFields />
-      </FormPage>
-    </div>
+        ),
+      }}
+      form={form}
+      onFinish={handleFinish}
+      onCancel={handleCancel}
+      submitting={createMutation.isPending || updateMutation.isPending}
+      error={isEdit ? updateMutation.error : createMutation.error}
+      submitText={isEdit ? copy.form.saveChanges : copy.actions.createUser}
+    >
+      <UserFormFields />
+    </FormPage>
   );
 }
